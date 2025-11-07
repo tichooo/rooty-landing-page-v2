@@ -8,7 +8,8 @@ import '../components/ButtonStyle.css';
 import '../components/ButtonStyleDark.css';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
-const IMAGE_H = Math.max(280, Math.round(SCREEN_H * 0.4)); // remplace 40vh
+const IMAGE_H = Math.max(280, Math.round(SCREEN_H * 0.65)); // remplace 60vh
+const IMAGE_W = Math.round(IMAGE_H * 14.1 / 9); // ratio 16:9
 const P = 16; // padding de base
 
 export default function Company() {
@@ -24,10 +25,8 @@ export default function Company() {
           <Image
             source={require('../../public/img/Dashboard-entreprise.png')}
             style={styles.heroImage}
-            resizeMode="cover"
+            resizeMode="contain"
           />
-          {/* Image placeholder (remplace par une Image plus tard) */}
-          <View style={styles.heroImagePlaceholder} />
 
           {/* Carte par-dessus l'image */}
           <OverlayCard />
@@ -72,8 +71,8 @@ function OverlayCard() {
           left: 0,                  // s’ancre au bord gauche du container image
           top: IMAGE_H / 2,         // base : milieu vertical du container
           transform: [
-            { translateX: -0.7 * dims.w }, // 70% de la largeur sort vers la gauche
-            { translateY: -0.5 * dims.h }, // centrage vertical
+            { translateX: -0.6 * dims.w }, // 70% de la largeur sort vers la gauche
+            { translateY: -0.7 * dims.h }, // centrage vertical
           ],
         },
       ]}
@@ -102,25 +101,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   heroImageContainer: {
-    width: '100%',
-    maxWidth: 1200,
-    height: IMAGE_H,       // remplace '40vh'
-    marginBottom: 24,      // remplace '4%'
+    width: IMAGE_W,
+    maxWidth: 1500,
+    height: IMAGE_H,
+    marginBottom: 24,
     position: 'relative',
-    overflow: 'visible',   // important pour voir la partie qui dépasse à gauche
-  },
-  heroImagePlaceholder: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#e0e0e0',
+    overflow: 'visible',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     borderRadius: 12,
   },
 
   heroImage: {
-  width: '100%',
-  height: '100%',
-  borderRadius: 12,
-},
+    width: '100%',
+    height: '100%',
+    borderRadius: 1,
+  },
 
   // Base de la carte (le positionnement dynamique est ajouté dans OverlayCard)
   heroOverlayCardBase: {
