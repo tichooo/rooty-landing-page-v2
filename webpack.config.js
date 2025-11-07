@@ -21,6 +21,13 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: 'asset/resource',
       },
+      {
+        test: /\.css$/i,
+        use: [
+          'style-loader', // injects <style> tags at runtime
+          'css-loader'    // lets Webpack import .css files
+        ],
+      },
     ],
   },
   resolve: {

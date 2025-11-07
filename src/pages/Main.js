@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import BackgroundShapes from '../components/BackgroundShapes';
 import Button from '../components/Button';
+import '../components/ButtonStyle.css';
+import '../components/FillEmail.css';
 
 const Main = () => {
   const handleLogin = () => {
@@ -13,29 +15,18 @@ const Main = () => {
     // Navigation ou action à implémenter
   };
 
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    console.log('Email soumis:', email);
+    // Logique d'abonnement à la newsletter
+  };
+
   const navigate = (page) => {
     if (global.navigateTo) {
       global.navigateTo(page);
     }
   };
-
-  const features = [
-    {
-      id: 1,
-      title: 'React Native Web',
-      description: 'Une seule codebase pour le web et le mobile',
-    },
-    {
-      id: 2,
-      title: 'Performance',
-      description: 'Optimisé pour une expérience utilisateur fluide',
-    },
-    {
-      id: 3,
-      title: 'Design Moderne',
-      description: 'Interface élégante et responsive',
-    },
-  ];
 
   return (
     <BackgroundShapes>
@@ -88,13 +79,12 @@ const Main = () => {
               <Text style={styles.heroSubtitle}>
                 Un outil de pilotage intelligent
               </Text>
-              <Button 
-                title="Découvrir la solution" 
-                variant="white"
-                showArrow={true}
-                onPress={handleDiscoverSolution}
-                style={styles.discoverButton}
-              />
+              <button className="learn-more" onClick={handleDiscoverSolution}>
+                <span className="circle" aria-hidden="true">
+                  <span className="icon arrow"></span>
+                </span>
+                <span className="button-text">Découvrir</span>
+              </button>
             </View>
             
             {/* Partie droite pour l'image */}
@@ -112,17 +102,18 @@ const Main = () => {
           </View>
         </View>
 
-      {/* Features Section */}
-      <View style={styles.featuresContainer}>
-        <Text style={styles.sectionTitle}>Nos Fonctionnalités</Text>
-        <View style={styles.featuresGrid}>
-          {features.map((feature) => (
-            <View key={feature.id} style={styles.featureCard}>
-              <Text style={styles.featureTitle}>{feature.title}</Text>
-              <Text style={styles.featureDescription}>{feature.description}</Text>
-            </View>
-          ))}
-        </View>
+      {/* Newsletter Section */}
+      <View style={styles.newsletterContainer}>
+        <Text style={styles.sectionTitle}>S'abonner à la Newsletter</Text>
+        <Text style={styles.newsletterSubtitle}>
+          Restez informé des dernières actualités et nouveautés ROOTY
+        </Text>
+        <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
+          <div className="inputGroup">
+            <input type="email" name="email" required autoComplete="off" />
+            <label htmlFor="email">Votre adresse email</label>
+          </div>
+        </form>
       </View>
 
       {/* Footer Section */}
@@ -220,45 +211,31 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 500,
   },
-  // Features Styles
-  featuresContainer: {
-    padding: 60,
-    backgroundColor: 'transparent',
+  // Newsletter Styles
+  newsletterContainer: {
+    padding: 50,
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
   },
   sectionTitle: {
     fontSize: 36,
-    fontWeight: 'bold',
+    fontWeight: '400',
     color: '#333',
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
-  featuresGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 20,
-  },
-  featureCard: {
-    backgroundColor: '#ffffff',
-    padding: 30,
-    borderRadius: 8,
-    width: 300,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  featureTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#4A90E2',
-    marginBottom: 10,
-  },
-  featureDescription: {
-    fontSize: 16,
+  newsletterSubtitle: {
+    fontSize: 14,
     color: '#666',
-    lineHeight: 24,
+    textAlign: 'center',
+    marginBottom: 40,
+    maxWidth: 600,
+  },
+  newsletterForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 0,
   },
   // Footer Styles
   footerContainer: {
