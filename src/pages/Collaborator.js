@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Header from '../components/Header';
-import BackgroundShapes from '../components/BackgroundShapes';
-import Button from '../components/Button';
+import '../components/AllButton.css';
+import '../components/ButtonStyle.css';
 
 const Collaborator = () => {
   const handleDownloadApp = () => {
@@ -18,12 +18,11 @@ const Collaborator = () => {
   };
 
   return (
-    <BackgroundShapes>
-      <ScrollView style={styles.scrollContainer}>
-        <Header />
-        
-        {/* Hero Section */}
-        <View style={styles.heroSection}>
+    <ScrollView style={styles.scrollContainer}>
+      <Header />
+      
+      {/* Hero Section */}
+      <View style={styles.heroSection}>
           <Text style={styles.heroTitle}>
             Validez vos trajets en 1 geste.{'\n'}Gagnez des avantages.
           </Text>
@@ -32,171 +31,16 @@ const Collaborator = () => {
             et vous cumulez des points/avantages. Vos données restent anonymisées pour l'entreprise.
           </Text>
           <View style={styles.heroCTAContainer}>
-            <Button 
-              title="Télécharger l'app" 
-              variant="primary"
-              showArrow={true}
-              onPress={handleDownloadApp}
-            />
-            <Button 
-              title="Comment ça marche ?" 
-              variant="outline"
-              onPress={handleHowItWorks}
-            />
+            <button className="learn-more" onClick={handleDownloadApp}>
+              <span className="circle" aria-hidden="true">
+                <span className="icon arrow"></span>
+              </span>
+              <span className="button-text">Télécharger</span>
+            </button>
+            <button className="all-button" onClick={handleHowItWorks}>
+              <span>Comment ça marche ?</span>
+            </button>
           </View>
-        </View>
-
-        {/* Comment ça marche */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Comment ça marche</Text>
-          
-          <View style={styles.stepCard}>
-            <Text style={styles.stepNumber}>1</Text>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>Activer l'app</Text>
-              <Text style={styles.stepDescription}>
-                Opt-in, choix du niveau d'automatisation
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.stepCard}>
-            <Text style={styles.stepNumber}>2</Text>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>Valider la proposition de trajet</Text>
-              <Text style={styles.stepDescription}>
-                1 tap suffit
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.stepCard}>
-            <Text style={styles.stepNumber}>3</Text>
-            <View style={styles.stepContent}>
-              <Text style={styles.stepTitle}>Gagner des points/avantages</Text>
-              <Text style={styles.stepDescription}>
-                FMD, entretien vélo, e-cartes…
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Ce que vous gagnez */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ce que vous gagnez</Text>
-          <View style={styles.valueGrid}>
-            <View style={styles.valueCard}>
-              <Text style={styles.valueIcon}>🎁</Text>
-              <Text style={styles.valueTitle}>Avantages concrets</Text>
-              <Text style={styles.valueDescription}>
-                Points ↔ récompenses internes/partenaires
-              </Text>
-            </View>
-            <View style={styles.valueCard}>
-              <Text style={styles.valueIcon}>📄</Text>
-              <Text style={styles.valueTitle}>Justificatifs en 1 clic</Text>
-              <Text style={styles.valueDescription}>
-                FMD/transport sans paperasse
-              </Text>
-            </View>
-            <View style={styles.valueCard}>
-              <Text style={styles.valueIcon}>📊</Text>
-              <Text style={styles.valueTitle}>Impact visible</Text>
-              <Text style={styles.valueDescription}>
-                Vos progrès (trajets doux, temps actif) en un coup d'œil
-              </Text>
-            </View>
-            <View style={styles.valueCard}>
-              <Text style={styles.valueIcon}>⚙️</Text>
-              <Text style={styles.valueTitle}>Contrôle total</Text>
-              <Text style={styles.valueDescription}>
-                Corriger un trajet, déclarer télétravail, mettre en pause
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Aperçu de l'app */}
-        <View style={styles.appPreviewSection}>
-          <Text style={styles.sectionTitle}>Aperçu de l'app</Text>
-          
-          <View style={styles.appScreensContainer}>
-            <View style={styles.appScreen}>
-              <Text style={styles.appScreenTitle}>Aujourd'hui</Text>
-              <Text style={styles.appScreenDescription}>
-                Valider / Modifier / TT
-              </Text>
-            </View>
-            <View style={styles.appScreen}>
-              <Text style={styles.appScreenTitle}>Objectif du mois</Text>
-              <Text style={styles.appScreenDescription}>
-                3 trajets restants → débloquez une récompense
-              </Text>
-            </View>
-            <View style={styles.appScreen}>
-              <Text style={styles.appScreenTitle}>Semaine</Text>
-              <Text style={styles.appScreenDescription}>
-                CO₂ évité / minutes actives
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Confidentialité */}
-        <View style={styles.privacySection}>
-          <Text style={styles.sectionTitle}>Vos données, vos règles</Text>
-          <View style={styles.bulletList}>
-            <View style={styles.bulletItem}>
-              <Text style={styles.bullet}>🔒</Text>
-              <Text style={styles.bulletText}>
-                Nous n'affichons pas votre localisation détaillée à l'entreprise
-              </Text>
-            </View>
-            <View style={styles.bulletItem}>
-              <Text style={styles.bullet}>🔒</Text>
-              <Text style={styles.bulletText}>
-                Vos trajets sont agrégés par période/site
-              </Text>
-            </View>
-            <View style={styles.bulletItem}>
-              <Text style={styles.bullet}>🔒</Text>
-              <Text style={styles.bulletText}>
-                Pause possible hors travail + suppression récente
-              </Text>
-            </View>
-          </View>
-          <Button 
-            title="En savoir plus sur la confidentialité" 
-            variant="outline"
-            onPress={handleLearnMore}
-            style={styles.learnMoreButton}
-          />
-        </View>
-
-        {/* Récompenses */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Récompenses</Text>
-          <View style={styles.rewardsGrid}>
-            <View style={styles.rewardCard}>
-              <Text style={styles.rewardIcon}>🚴</Text>
-              <Text style={styles.rewardText}>Entretien vélo</Text>
-            </View>
-            <View style={styles.rewardCard}>
-              <Text style={styles.rewardIcon}>🎁</Text>
-              <Text style={styles.rewardText}>E-cartes cadeaux</Text>
-            </View>
-            <View style={styles.rewardCard}>
-              <Text style={styles.rewardIcon}>🚿</Text>
-              <Text style={styles.rewardText}>Accès casiers/douches</Text>
-            </View>
-            <View style={styles.rewardCard}>
-              <Text style={styles.rewardIcon}>💰</Text>
-              <Text style={styles.rewardText}>Primes internes</Text>
-            </View>
-          </View>
-          <Text style={styles.microCopy}>
-            Votre entreprise choisit le catalogue. Chaque validation crédite votre solde.
-          </Text>
         </View>
 
         {/* FAQ */}
@@ -230,24 +74,21 @@ const Collaborator = () => {
           <Text style={styles.footerCTATitle}>
             Prêt à simplifier vos trajets domicile-travail ?
           </Text>
-          <Button 
-            title="Télécharger l'app" 
-            variant="white"
-            showArrow={true}
-            onPress={handleDownloadApp}
-          />
+          <button className="learn-more" onClick={handleDownloadApp}>
+            <span className="circle" aria-hidden="true">
+              <span className="icon arrow"></span>
+            </span>
+            <span className="button-text">Télécharger</span>
+          </button>
         </View>
 
-        {/* Footer */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
-        </View>
-      </ScrollView>
-    </BackgroundShapes>
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
+      </View>
+    </ScrollView>
   );
-};
-
-const styles = StyleSheet.create({
+};const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     backgroundColor: '#ffffff',

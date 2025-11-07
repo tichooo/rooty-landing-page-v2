@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Button from './Button.jsx';
 import './ConnexionButton.css';
 
 const Header = () => {

@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import BackgroundShapes from '../components/BackgroundShapes';
-import Button from '../components/Button';
 import '../components/ButtonStyle.css';
+import '../components/ButtonStyleDark.css';
 import '../components/FillEmail.css';
 import '../components/BasicButton.css';
 import '../components/ConnexionButton.css';
@@ -31,10 +30,9 @@ const Main = () => {
   };
 
   return (
-    <BackgroundShapes>
-      <ScrollView style={styles.scrollContainer}>
-        {/* Header transparent intégré */}
-        <View style={styles.transparentHeader}>
+    <ScrollView style={styles.scrollContainer}>
+      {/* Header transparent intégré */}
+      <View style={styles.transparentHeader}>
           <View style={styles.headerContainer}>
             <TouchableOpacity onPress={() => navigate('main')}>
               <img 
@@ -78,12 +76,14 @@ const Main = () => {
               <Text style={styles.heroSubtitle}>
                 Un outil de pilotage intelligent
               </Text>
-              <button className="learn-more" onClick={handleDiscoverSolution}>
-                <span className="circle" aria-hidden="true">
-                  <span className="icon arrow"></span>
-                </span>
-                <span className="button-text">Découvrir</span>
-              </button>
+              <View style={styles.buttonContainer}>
+                <button className="learn-more-dark" onClick={handleDiscoverSolution}>
+                  <span className="circle" aria-hidden="true">
+                    <span className="icon arrow"></span>
+                  </span>
+                  <span className="button-text">Découvrir</span>
+                </button>
+              </View>
             </View>
             
             {/* Partie droite pour l'image */}
@@ -120,7 +120,6 @@ const Main = () => {
         <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
       </View>
     </ScrollView>
-    </BackgroundShapes>
   );
 };
 
@@ -204,6 +203,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.5)',
     marginBottom: '5%',
     fontWeight: '400',
+  },
+  buttonContainer: {
+    alignSelf: 'flex-start',
   },
   discoverButton: {
     alignSelf: 'flex-start',
