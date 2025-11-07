@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Button from './Button.jsx';
+import './ConnexionButton.css';
 
 const Header = () => {
   const handleLogin = () => {
@@ -39,12 +40,9 @@ const Header = () => {
             <Text style={styles.navLinkText}>Collaborateurs</Text>
           </TouchableOpacity>
           
-          <Button 
-            title="Connexion" 
-            variant="outline"
-            onPress={handleLogin}
-            style={styles.loginButton}
-          />
+          <button className="connexion-button" onClick={handleLogin}>
+            Connexion
+          </button>
         </View>
       </View>
     </View>

@@ -1,0 +1,39 @@
+button.basic-button {
+  font-size: 16px;
+  color: #e1e1e1;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+  padding: 10px 15px;
+}
+
+button.basic-button:focus,
+button.basic-button:hover {
+  color: #fff;
+}
+
+button.basic-button:focus:after,
+button.basic-button:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+button.basic-button:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #fff;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}

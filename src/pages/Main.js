@@ -4,6 +4,8 @@ import BackgroundShapes from '../components/BackgroundShapes';
 import Button from '../components/Button';
 import '../components/ButtonStyle.css';
 import '../components/FillEmail.css';
+import '../components/BasicButton.css';
+import '../components/ConnexionButton.css';
 
 const Main = () => {
   const handleLogin = () => {
@@ -48,20 +50,17 @@ const Main = () => {
             </TouchableOpacity>
             
             <View style={styles.headerNav}>
-              <TouchableOpacity onPress={() => navigate('company')} style={styles.navLink}>
-                <Text style={styles.navLinkTextWhite}>Entreprises</Text>
-              </TouchableOpacity>
+              <button className="basic-button" onClick={() => navigate('company')}>
+                Entreprises
+              </button>
               
-              <TouchableOpacity onPress={() => navigate('collaborator')} style={styles.navLink}>
-                <Text style={styles.navLinkTextWhite}>Collaborateurs</Text>
-              </TouchableOpacity>
+              <button className="basic-button" onClick={() => navigate('collaborator')}>
+                Collaborateurs
+              </button>
               
-              <Button 
-                title="Connexion" 
-                variant="white"
-                onPress={handleLogin}
-                style={styles.loginButton}
-              />
+              <button className="connexion-button" onClick={handleLogin}>
+                Connexion
+              </button>
             </View>
           </View>
         </View>
@@ -133,40 +132,41 @@ const styles = StyleSheet.create({
   // Header transparent
   transparentHeader: {
     position: 'absolute',
-    top: 100,
-    left: 200,
-    right: 400,
+    top: 0,
+    left: 0,
+    right: 0,
     zIndex: 1000,
     backgroundColor: 'transparent',
+    paddingTop: '3%',
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 60,
-    paddingVertical: 20,
-    maxWidth: 4000,
+    paddingHorizontal: '5%',
+    paddingVertical: '1.5%',
+    maxWidth: '80%',
     marginHorizontal: 'auto',
     width: '100%',
   },
   headerNav: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 30,
+    gap: '10%',
   },
   navLink: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: '1%',
+    paddingHorizontal: '-1.5%',
   },
   navLinkTextWhite: {
-    fontSize: 16,
+    fontSize: 'clamp(14px, 1.2vw, 16px)',
     color: '#ffffff',
     fontWeight: '500',
     cursor: 'pointer',
   },
   loginButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: '2%',
+    paddingHorizontal: '4%',
   },
   // Hero Styles - Pleine page
   heroContainer: {
@@ -174,34 +174,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#1a1a2e',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 60,
-    paddingTop: 10,
+    paddingHorizontal: '5%',
+    paddingVertical: '6%',
   },
   heroContent: {
     flexDirection: 'row',
-    maxWidth: 2200,
+    maxWidth: '90%',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 150,
+    gap: '5%',
+    flexWrap: 'wrap',
   },
   heroLeft: {
     flex: 1,
-    maxWidth: 1050,
+    minWidth: '40%',
   },
   heroTitle: {
-    fontSize: 72,
+    fontSize: 'clamp(32px, 5vw, 56px)',
     fontWeight: '400',
     color: '#ffffff',
-    marginBottom: 100,
-    lineHeight: 80,
+    marginBottom: '5%',
+    lineHeight: '110%',
     letterSpacing: 0.5,
-    flexWrap: 'nowrap',
+    whiteSpace: 'pre-wrap',
   },
   heroSubtitle: {
-    fontSize: 44,
+    fontSize: 'clamp(20px, 3vw, 32px)',
     color: 'rgba(255, 255, 255, 0.5)',
-    marginBottom: 80,
+    marginBottom: '5%',
     fontWeight: '400',
   },
   discoverButton: {
@@ -209,27 +210,31 @@ const styles = StyleSheet.create({
   },
   heroRight: {
     flex: 1,
-    minHeight: 500,
+    minWidth: '40%',
+    maxWidth: '50%',
+    minHeight: '30vh',
   },
   // Newsletter Styles
   newsletterContainer: {
-    padding: 50,
+    paddingVertical: '5%',
+    paddingHorizontal: '5%',
     backgroundColor: '#ffffff',
     alignItems: 'center',
   },
   sectionTitle: {
-    fontSize: 36,
+    fontSize: 'clamp(28px, 4vw, 36px)',
     fontWeight: '400',
     color: '#333',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: '2%',
   },
   newsletterSubtitle: {
-    fontSize: 14,
+    fontSize: 'clamp(14px, 2vw, 18px)',
     color: '#666',
     textAlign: 'center',
-    marginBottom: 40,
-    maxWidth: 600,
+    marginBottom: '4%',
+    maxWidth: '80%',
+    paddingHorizontal: '2%',
   },
   newsletterForm: {
     display: 'flex',
@@ -239,13 +244,14 @@ const styles = StyleSheet.create({
   },
   // Footer Styles
   footerContainer: {
-    padding: 40,
+    paddingVertical: '3%',
+    paddingHorizontal: '3%',
     backgroundColor: '#333',
     alignItems: 'center',
   },
   footerText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 'clamp(12px, 1vw, 14px)',
   },
 });
 
