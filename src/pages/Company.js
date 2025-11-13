@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import '../components/AllButton.css';
 import '../components/ButtonStyle.css';
 import '../components/ButtonStyleDark.css';
+import '../components/FillEmail.css';
 
 const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
 const IMAGE_H = Math.max(280, Math.round(SCREEN_H * 0.65)); // remplace 60vh
@@ -14,6 +15,13 @@ const P = 16; // padding de base
 
 export default function Company() {
   const handleDemoRequest = () => console.log('Demander une démo');
+  const [email, setEmail] = useState('');
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    console.log('Newsletter subscription:', email);
+    setEmail('');
+  };
 
   return (
     <ScrollView style={styles.scrollContainer}>
@@ -33,6 +41,69 @@ export default function Company() {
         </View>
       </View>
 
+      {/* Section: Ce que nous résolvons */}
+      <View style={styles.benefitsSection}>
+        <View style={styles.benefitsHeader}>
+          <View style={styles.benefitsDash} />
+          <Text style={styles.benefitsTitle}>
+            Benefits you get when{'\n'}using our services
+          </Text>
+        </View>
+
+        <View style={styles.benefitsGrid}>
+          {/* Item 1 */}
+          <View style={styles.benefitItem}>
+            <View style={styles.benefitIconWrap}>
+              <Image
+                source={require('../../public/img/icons/fiabilite-donnees.png')} // remplace si besoin
+                style={styles.benefitIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.benefitTextCol}>
+              <Text style={styles.benefitTitle}>Best Quality</Text>
+              <Text style={styles.benefitText}>
+                All of our furniture uses the best materials and choices for our customers.
+              </Text>
+            </View>
+          </View>
+
+          {/* Item 2 */}
+          <View style={styles.benefitItem}>
+            <View style={styles.benefitIconWrap}>
+              <Image
+                source={require('../../public/img/icons/fiabilite-trajets.png')}
+                style={styles.benefitIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.benefitTextCol}>
+              <Text style={styles.benefitTitle}>Free Shipping</Text>
+              <Text style={styles.benefitText}>
+                Free shipping everytime you buy furniture from us without exception.
+              </Text>
+            </View>
+          </View>
+
+          {/* Item 3 */}
+          <View style={styles.benefitItem}>
+            <View style={styles.benefitIconWrap}>
+              <Image
+                source={require('../../public/img/icons/peu-reponses.png')}
+                style={styles.benefitIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.benefitTextCol}>
+              <Text style={styles.benefitTitle}>Warranty</Text>
+              <Text style={styles.benefitText}>
+                Every time you buy our furniture products, you will get a warranty without exception.
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
       {/* Footer CTA */}
       <View style={styles.footerCTA}>
         <Text style={styles.footerCTATitle}>
@@ -44,6 +115,68 @@ export default function Company() {
           </span>
           <span className="button-text">Demander une démo</span>
         </button>
+      </View>
+
+      {/* Section: Alignement RSE */}
+      <View style={styles.alignmentSection}>
+        <View style={styles.alignmentImageContainer}>
+          <Image
+            source={require('../../public/img/entreprise1.png')}
+            style={styles.alignmentImage}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.alignmentTextContainer}>
+          <Text style={styles.alignmentTitle}>
+            Rooty aligne les enjeux RSE et la motivation des collaborateurs.
+          </Text>
+        </View>
+      </View>
+
+      {/* Section: Images Process */}
+      <View style={styles.processSection}>
+        <View style={styles.processImageWrapper}>
+          <Image
+            source={require('../../public/img/entreprise2.png')}
+            style={styles.processImage}
+            resizeMode="contain"
+          />
+        </View>
+        <View style={styles.processImageWrapper}>
+          <Image
+            source={require('../../public/img/entreprise3.png')}
+            style={styles.processImage}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+
+      {/* Newsletter Section */}
+      <View style={styles.newsletterSection}>
+        <Text style={styles.newsletterTitle}>Restez informé</Text>
+        <Text style={styles.newsletterSubtitle}>
+          Inscrivez-vous à notre newsletter pour recevoir les dernières actualités
+        </Text>
+        <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
+          <div className="inputGroup">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label>Votre adresse email</label>
+          </div>
+          <button type="submit" className="all-button">
+            <span className="button-text">S'inscrire</span>
+            <span className="button-overlay"></span>
+          </button>
+        </form>
+      </View>
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
       </View>
 
       {/* ... le reste de ta page (FAQ, footer) ... */}
@@ -161,5 +294,176 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 20,
     textAlign: 'center',
+  },
+
+  /* === BENEFITS === */
+  benefitsSection: {
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    alignItems: 'stretch',
+  },
+
+  // Bande + Titre (gauche)
+  benefitsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 46,
+    marginBottom: 28,
+  },
+  benefitsDash: {
+    width: 56,
+    height: 2,
+    backgroundColor: '#1f2937', // gris foncé
+    borderRadius: 1,
+  },
+  benefitsTitle: {
+    flexShrink: 1,
+    fontSize: 28,           // proche du rendu (utilise 32 si tu veux plus grand)
+    fontWeight: '800',
+    color: '#111827',
+    lineHeight: 34,
+  },
+
+  // Grille de 3 blocs (responsive sans media-queries)
+  benefitsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: 24,                 // RN web supporte gap
+  },
+
+  // Carte
+  benefitItem: {
+    flexBasis: '31%',        // ~3 colonnes
+    minWidth: 260,           // empile correctement sur petits écrans
+    maxWidth: 380,
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 16,
+  },
+
+  benefitIconWrap: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  benefitIcon: {
+    width: 40,
+    height: 40,
+    opacity: 1.2,
+  },
+
+  benefitTextCol: {
+    flex: 1,
+  },
+  benefitTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  benefitText: {
+    fontSize: 14,
+    color: '#6b7280',
+    lineHeight: 20,
+  },
+
+
+  /** ALIGNMENT SECTION */
+  alignmentSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#ffffffff',
+    maxWidth: 1200,
+    width: '100%',
+    marginHorizontal: 'auto',
+    gap: 40,
+  },
+  alignmentImageContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  alignmentImage: {
+    width: '100%',
+    height: 400,
+  },
+  alignmentTextContainer: {
+    flex: 1,
+  },
+  alignmentTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#333',
+    lineHeight: 42,
+    justifyContent: 'flex-end',
+  },
+
+  /** PROCESS SECTION */
+  processSection: {
+    flexDirection: 'row',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 20,
+    maxWidth: 1400,
+    width: '100%',
+    marginHorizontal: 'auto',
+  },
+  processImageWrapper: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  processImage: {
+    width: '100%',
+    height: 350,
+  },
+
+  /** NEWSLETTER SECTION */
+  newsletterSection: {
+    paddingVertical: 60,
+    paddingHorizontal: 20,
+    backgroundColor: '#f9fafb',
+    alignItems: 'center',
+  },
+  newsletterTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  newsletterSubtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 32,
+    textAlign: 'center',
+    maxWidth: 500,
+  },
+  newsletterForm: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 16,
+    maxWidth: 600,
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  /** FOOTER */
+  footer: {
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    backgroundColor: '#5c6c78',
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#ffffff',
+    fontSize: 14,
   },
 });

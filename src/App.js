@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Main from './pages/Main';
 import Company from './pages/Company';
@@ -6,6 +6,11 @@ import Collaborator from './pages/Collaborator';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('main');
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   const renderPage = () => {
     switch (currentPage) {
