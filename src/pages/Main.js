@@ -20,7 +20,7 @@ const Main = () => {
 
   const handleDiscoverSolution = () => {
     console.log('Découvrir la solution cliqué');
-    // Navigation ou action à implémenter
+    navigate('demo');
   };
 
   const handleNewsletterSubmit = (e) => {

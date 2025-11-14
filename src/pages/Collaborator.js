@@ -15,7 +15,9 @@ const Collaborator = () => {
   };
 
   const handleHowItWorks = () => {
-    console.log('Comment ça marche ?');
+    if (global.navigateTo) {
+      global.navigateTo('demo');
+    }
   };
 
   const handleLearnMore = () => {

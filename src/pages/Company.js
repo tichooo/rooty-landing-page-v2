@@ -14,7 +14,11 @@ const IMAGE_W = Math.round(IMAGE_H * 14.1 / 9); // ratio 16:9
 const P = 16; // padding de base
 
 export default function Company() {
-  const handleDemoRequest = () => console.log('Demander une démo');
+  const handleDemoRequest = () => {
+    if (global.navigateTo) {
+      global.navigateTo('demo');
+    }
+  };
   const [email, setEmail] = useState('');
 
   const handleNewsletterSubmit = (e) => {
@@ -158,7 +162,7 @@ export default function Company() {
           Inscrivez-vous à notre newsletter pour recevoir les dernières actualités
         </Text>
         <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
-          <div className="inputGroup">
+          <div className="inputGroup" style={{ width: '100%' }}>
             <input
               type="email"
               value={email}
@@ -167,7 +171,7 @@ export default function Company() {
             />
             <label>Votre adresse email</label>
           </div>
-          <button type="submit" className="all-button">
+          <button type="submit" className="all-button" style={{ alignSelf: 'center' }}>
             <span className="button-text">S'inscrire</span>
             <span className="button-overlay"></span>
           </button>
@@ -431,6 +435,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: '#f9fafb',
     alignItems: 'center',
+    width: '100%',
   },
   newsletterTitle: {
     fontSize: 32,
@@ -447,12 +452,11 @@ const styles = StyleSheet.create({
     maxWidth: 500,
   },
   newsletterForm: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
+    flexDirection: 'column',
+    alignItems: 'center',
     gap: 16,
     maxWidth: 600,
     width: '100%',
-    alignItems: 'center',
   },
 
   /** FOOTER */

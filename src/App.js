@@ -5,6 +5,7 @@ import Company from './pages/Company';
 import Collaborator from './pages/Collaborator';
 import Authentification from './pages/Authentification';
 import Download from './pages/Download';
+import Demo from './pages/Demo';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('main');
@@ -41,6 +42,8 @@ const App = () => {
         return <Authentification loginMessage={loginMessage} setIsUserLoggedIn={setIsUserLoggedIn} />;
       case 'download':
         return <Download />;
+      case 'demo':
+        return <Demo />;
       default:
         return <Main />;
     }
