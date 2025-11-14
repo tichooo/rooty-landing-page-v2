@@ -3,15 +3,19 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import './ConnexionButton.css';
 
 const Header = () => {
-  const handleLogin = () => {
-    console.log('Connexion cliquée');
-    // Logique de connexion à implémenter
-  };
-
   const navigate = (page) => {
+    console.log('Navigating to:', page);
+    console.log('global.navigateTo exists:', !!global.navigateTo);
     if (global.navigateTo) {
       global.navigateTo(page);
+    } else {
+      console.error('global.navigateTo is not defined');
     }
+  };
+
+  const handleLogin = () => {
+    console.log('Login button clicked');
+    navigate('auth');
   };
 
   return (

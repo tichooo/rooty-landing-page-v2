@@ -8,7 +8,10 @@ import '../components/BasicButton.css';
 
 const Collaborator = () => {
   const handleDownloadApp = () => {
-    console.log('Télécharger l\'app');
+    // Utiliser la navigation globale qui gère la vérification de connexion
+    if (global.navigateTo) {
+      global.navigateTo('download');
+    }
   };
 
   const handleHowItWorks = () => {

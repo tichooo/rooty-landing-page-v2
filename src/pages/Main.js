@@ -7,8 +7,15 @@ import '../components/BasicButton.css';
 import '../components/ConnexionButton.css';
 
 const Main = () => {
+  const navigate = (page) => {
+    if (global.navigateTo) {
+      global.navigateTo(page);
+    }
+  };
+
   const handleLogin = () => {
     console.log('Connexion cliquée');
+    navigate('auth');
   };
 
   const handleDiscoverSolution = () => {
@@ -21,12 +28,6 @@ const Main = () => {
     const email = e.target.email.value;
     console.log('Email soumis:', email);
     // Logique d'abonnement à la newsletter
-  };
-
-  const navigate = (page) => {
-    if (global.navigateTo) {
-      global.navigateTo(page);
-    }
   };
 
   return (
