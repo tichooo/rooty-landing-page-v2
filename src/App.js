@@ -6,6 +6,7 @@ import Collaborator from './pages/Collaborator';
 import Authentification from './pages/Authentification';
 import Download from './pages/Download';
 import Demo from './pages/Demo';
+import PilotTest from './pages/PilotTest';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('main');
@@ -44,6 +45,8 @@ const App = () => {
         return <Download />;
       case 'demo':
         return <Demo />;
+      case 'pilottest':
+        return <PilotTest />;
       default:
         return <Main />;
     }

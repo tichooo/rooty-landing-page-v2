@@ -50,7 +50,7 @@ export default function Company() {
         <View style={styles.benefitsHeader}>
           <View style={styles.benefitsDash} />
           <Text style={styles.benefitsTitle}>
-            Benefits you get when{'\n'}using our services
+            Avantages que vous obtenez en{'\n'}utilisant nos services
           </Text>
         </View>
 
@@ -59,20 +59,37 @@ export default function Company() {
           <View style={styles.benefitItem}>
             <View style={styles.benefitIconWrap}>
               <Image
-                source={require('../../public/img/icons/fiabilite-donnees.png')} // remplace si besoin
+                source={require('../../public/img/icons/peu-reponses.png')} // remplace si besoin
                 style={styles.benefitIcon}
                 resizeMode="contain"
               />
             </View>
             <View style={styles.benefitTextCol}>
-              <Text style={styles.benefitTitle}>Best Quality</Text>
+              <Text style={styles.benefitTitle}>Faible participation des collaborateurs</Text>
               <Text style={styles.benefitText}>
-                All of our furniture uses the best materials and choices for our customers.
+                Des processus automatisés qui minimisent l'effort requis de la part des employés.
               </Text>
             </View>
           </View>
 
           {/* Item 2 */}
+          <View style={styles.benefitItem}>
+            <View style={styles.benefitIconWrap}>
+              <Image
+                source={require('../../public/img/icons/fiabilite-donnees.png')}
+                style={styles.benefitIcon}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={styles.benefitTextCol}>
+              <Text style={styles.benefitTitle}>Données partielles ou déclaratives</Text>
+              <Text style={styles.benefitText}>
+                Des données collectées automatiquement et des rapports précis pour des décisions éclairées.
+              </Text>
+            </View>
+          </View>
+
+          {/* Item 3 */}
           <View style={styles.benefitItem}>
             <View style={styles.benefitIconWrap}>
               <Image
@@ -82,26 +99,9 @@ export default function Company() {
               />
             </View>
             <View style={styles.benefitTextCol}>
-              <Text style={styles.benefitTitle}>Free Shipping</Text>
+              <Text style={styles.benefitTitle}>Faible fiabilité des trajets domicile-travail</Text>
               <Text style={styles.benefitText}>
-                Free shipping everytime you buy furniture from us without exception.
-              </Text>
-            </View>
-          </View>
-
-          {/* Item 3 */}
-          <View style={styles.benefitItem}>
-            <View style={styles.benefitIconWrap}>
-              <Image
-                source={require('../../public/img/icons/peu-reponses.png')}
-                style={styles.benefitIcon}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={styles.benefitTextCol}>
-              <Text style={styles.benefitTitle}>Warranty</Text>
-              <Text style={styles.benefitText}>
-                Every time you buy our furniture products, you will get a warranty without exception.
+                Une précision accrue grâce à une collecte automatisée des données.
               </Text>
             </View>
           </View>
