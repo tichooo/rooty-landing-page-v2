@@ -1,42 +1,53 @@
 .inputGroup {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0.5em 0 0.5em 0;
-  max-width: 300px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  margin: 0.5em 0;
+  max-width: 320px;
   position: relative;
 }
 
 .inputGroup input {
-  font-size: 100%;
-  padding: 0.8em;
+  font-size: 0.95rem;
+  padding: 0.9em 1em;
   outline: none;
-  border: 2px solid #5CC9B4;
-  background-color: transparent;
-  border-radius: 20px;
+  border: 2px solid rgba(148, 163, 184, 0.7);
+  background-color: rgba(15, 23, 42, 0.75);
+  border-radius: 999px;
   width: 100%;
+  color: var(--text-main);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.inputGroup input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
 }
 
 .inputGroup label {
-  font-size: 100%;
+  font-size: 0.9rem;
   position: absolute;
   left: 0;
-  padding: 0.8em;
-  margin-left: 0.5em;
+  padding: 0.5em 1em;
+  margin-left: 0.3em;
   margin-top: -3em;
   pointer-events: none;
-  transition: all 0.3s ease;
-  color: rgb(100, 100, 100);
+  transition: all 0.25s ease;
+  color: var(--text-muted);
 }
 
-.inputGroup :is(input:focus, input:valid)~label {
-  transform: translateY(-50%) scale(.9);
-  margin: -3em;
-  margin-left: 1.3em;
-  padding: 0.4em;
-  background-color: #ffffff;
-  color: #5CC9B4;
+/* état focus / rempli */
+.inputGroup :is(input:focus, input:valid) ~ label {
+  transform: translateY(-55%) scale(.85);
+  margin-top: -3.1em;
+  margin-left: 1.1em;
+  padding: 0.3em 0.6em;
+  border-radius: 999px;
+  background: #020617;
+  color: var(--accent);
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.3);
 }
 
 .inputGroup :is(input:focus, input:valid) {
-  border-color: #5CC9B4;
-  border-width: 3px;
+  border-color: var(--accent);
+  border-width: 2px;
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 25px rgba(34, 211, 238, 0.35);
 }

@@ -1,26 +1,34 @@
 button.connexion-button {
-  padding: 1.3em 3em;
-  font-size: 12px;
+  padding: 0.95em 2.4em;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 2.5px;
-  font-weight: 500;
-  color: #000;
-  background-color: #fff;
-  border: none;
-  border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+
+  color: var(--text-main);
+  background: radial-gradient(circle at top left,
+              rgba(34, 211, 238, 0.25),
+              #020617 70%);
+  border-radius: 999px;
+  border: 1px solid rgba(34, 211, 238, 0.6);
+  box-shadow: 0 16px 30px rgba(8, 47, 73, 0.65);
+
+  transition: background 0.25s ease, box-shadow 0.25s ease,
+              transform 0.2s ease, color 0.25s ease, border-color 0.25s ease;
   cursor: pointer;
   outline: none;
 }
 
 button.connexion-button:hover {
-  background-color: #5CC9B4;
-  box-shadow: 0px 15px 20px rgba(92, 201, 180, 0.4);
-  color: #fff;
-  transform: translateY(-7px);
+  background: radial-gradient(circle at top left,
+              rgba(34, 211, 238, 0.45),
+              #020617 70%);
+  box-shadow: 0 22px 44px rgba(8, 47, 73, 0.9);
+  transform: translateY(-3px);
+  border-color: rgba(34, 211, 238, 0.95);
 }
 
 button.connexion-button:active {
   transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(8, 47, 73, 0.7);
 }

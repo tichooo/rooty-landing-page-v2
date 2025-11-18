@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import '../components/ButtonStyle.css';
-import '../components/ButtonStyleDark.css';
 import '../components/FillEmail.css';
 import '../components/BasicButton.css';
 import '../components/ConnexionButton.css';
+import PhoneFrame from '../components/PhoneFrame';
 
 const Main = () => {
   const navigate = (page) => {
@@ -27,92 +27,110 @@ const Main = () => {
     e.preventDefault();
     const email = e.target.email.value;
     console.log('Email soumis:', email);
-    // Logique d'abonnement à la newsletter
+    // Logique d'abonnement à la newsletter ici
   };
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      {/* Header transparent intégré */}
+      {/* Header transparent */}
       <View style={styles.transparentHeader}>
-          <View style={styles.headerContainer}>
-            <TouchableOpacity onPress={() => navigate('main')}>
-              <img 
-                src={require('../../public/img/Logo-R-bleu.png')}
-                alt="ROOTY Logo"
-                style={{
-                  height: 60,
-                  width: 225,
-                  objectFit: 'contain',
-                  cursor: 'pointer',
-                }}
-              />
-            </TouchableOpacity>
-            
-            <View style={styles.headerNav}>
-              <button className="basic-button" onClick={() => navigate('company')}>
-                Entreprises
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigate('main')}>
+            <img
+              src={require('../../public/img/Logo-R-bleu.png')}
+              alt="ROOTY Logo"
+              style={{
+                height: 60,
+                width: 225,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.headerNav}>
+            <button className="basic-button" onClick={() => navigate('company')}>
+              Entreprises
+            </button>
+
+            <button className="basic-button" onClick={() => navigate('collaborator')}>
+              Collaborateurs
+            </button>
+
+            <button className="connexion-button" onClick={handleLogin}>
+              Connexion
+            </button>
+          </View>
+        </View>
+      </View>
+
+      {/* Hero Section */}
+      <View style={styles.heroContainer}>
+        <View style={styles.heroContent}>
+          {/* Colonne gauche : texte */}
+          <View style={styles.heroLeft}>
+            <Text style={styles.heroKicker}>
+              Forfait Mobilités Durables & émissions Scope 3
+            </Text>
+
+            <Text style={styles.heroTitle}>
+              Suivez vos émissions {'\n'}
+              <Text style={styles.heroTitleAccent}>Scope 3</Text> et récompensez {'\n'}
+              vos collaborateurs.
+            </Text>
+
+            <Text style={styles.heroSubtitle}>
+              ROOTY simplifie le suivi des déplacements, automatise votre reporting et
+              valorise les mobilités durables de vos équipes.
+            </Text>
+
+            <View style={styles.buttonContainer}>
+              <button className="connexion-button" onClick={handleDiscoverSolution}>
+                Découvrir la solution
               </button>
-              
-              <button className="basic-button" onClick={() => navigate('collaborator')}>
-                Collaborateurs
-              </button>
-              
-              <button className="connexion-button" onClick={handleLogin}>
-                Connexion
+
+              <button className="learn-more" onClick={handleLogin}>
+                <span className="circle" aria-hidden="true">
+                  <span className="icon arrow"></span>
+                </span>
+                <span className="button-text">Se connecter</span>
               </button>
             </View>
           </View>
-        </View>
-        
-        {/* Hero Section - Pleine page */}
-        <View style={styles.heroContainer}>
-          <View style={styles.heroContent}>
-            {/* Partie gauche avec texte */}
-            <View style={styles.heroLeft}>
-              <Text style={styles.heroTitle}>
-                Une plateforme unique pour suivre
-                vos émissions Scope 3 et récompenser
-                vos salariés grâce au Forfait Mobilités Durables
-              </Text>
-              <Text style={styles.heroSubtitle}>
-                Un outil de pilotage intelligent
-              </Text>
-              <View style={styles.buttonContainer}>
-                <button className="learn-more-dark" onClick={handleDiscoverSolution}>
-                  <span className="circle" aria-hidden="true">
-                    <span className="icon arrow"></span>
-                  </span>
-                  <span className="button-text">Découvrir</span>
-                </button>
-              </View>
-            </View>
-            
-            {/* Partie droite pour l'image */}
-            <View style={styles.heroRight}>
-              <img 
-                src={require('../../public/img/Mascotte.png')}
-                alt="Colibri coloré"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
-                }}
-              />
-            </View>
+
+          {/* Colonne droite : PhoneFrame avec dashboard */}
+          <View style={styles.heroRight}>
+            <PhoneFrame width={300} height={580} className="hero-phone">
+              <div style={styles.phoneScreen}>
+                <div style={styles.phoneTag}>Vue collaborateur</div>
+                <img
+                  src={require('../../public/img/interface-principale-cote-employé.png')}
+                  alt="Interface principale Rooty côté employé"
+                  style={styles.phoneImage}
+                />
+              </div>
+            </PhoneFrame>
           </View>
         </View>
+      </View>
 
       {/* Newsletter Section */}
       <View style={styles.newsletterContainer}>
-        <Text style={styles.sectionTitle}>S'abonner à la Newsletter</Text>
+        <Text style={styles.sectionTitle}>
+          Restez informé de l&apos;évolution de ROOTY
+        </Text>
         <Text style={styles.newsletterSubtitle}>
-          Restez informé des dernières actualités et nouveautés ROOTY
+          Recevez les nouveautés produit, conseils réglementaires et actualités sur les
+          mobilités durables.
         </Text>
         <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
           <div className="inputGroup">
             <input type="email" name="email" required autoComplete="off" />
             <label htmlFor="email">Votre adresse email</label>
           </div>
+          <button type="submit" className="connexion-button" style={styles.newsletterButton}>
+            S&apos;abonner
+          </button>
         </form>
       </View>
 
@@ -127,9 +145,10 @@ const Main = () => {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#020617',
   },
-  // Header transparent
+
+  // Header
   transparentHeader: {
     position: 'absolute',
     top: 0,
@@ -137,123 +156,155 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1000,
     backgroundColor: 'transparent',
-    paddingTop: '3%',
+    paddingTop: '1.5rem',
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: '5%',
-    paddingVertical: '1.5%',
-    maxWidth: '80%',
-    marginHorizontal: 'auto',
+    maxWidth: 1120,
     width: '100%',
+    marginHorizontal: 'auto',
   },
   headerNav: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '10%',
+    gap: '1rem',
   },
-  navLink: {
-    paddingVertical: '1%',
-    paddingHorizontal: '-1.5%',
-  },
-  navLinkTextWhite: {
-    fontSize: 'clamp(14px, 1.2vw, 16px)',
-    color: '#ffffff',
-    fontWeight: '500',
-    cursor: 'pointer',
-  },
-  loginButton: {
-    paddingVertical: '2%',
-    paddingHorizontal: '4%',
-  },
-  // Hero Styles - Pleine page
+
+  // Hero
   heroContainer: {
     minHeight: '100vh',
-    backgroundColor: '#1a1a2e',
     justifyContent: 'center',
-    alignItems: 'center',
     paddingHorizontal: '5%',
-    paddingVertical: '6%',
+    paddingTop: '7rem',
+    paddingBottom: '5rem',
+    backgroundColor: '#020617',
   },
   heroContent: {
     flexDirection: 'row',
-    maxWidth: '90%',
+    maxWidth: 1120,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: '5%',
+    gap: '3rem',
     flexWrap: 'wrap',
+    marginHorizontal: 'auto',
   },
   heroLeft: {
-    flex: 1,
-    minWidth: '40%',
+    flex: 1.2,
+    minWidth: 280,
+  },
+  heroKicker: {
+    fontSize: 12,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    color: 'var(--accent-soft)',
+    marginBottom: '0.75rem',
   },
   heroTitle: {
-    fontSize: 'clamp(32px, 5vw, 56px)',
-    fontWeight: '400',
-    color: '#ffffff',
-    marginBottom: '5%',
-    lineHeight: '110%',
-    letterSpacing: 0.5,
+    fontSize: 'clamp(32px, 4vw, 52px)',
+    fontWeight: '700',
+    color: '#f9fafb',
+    marginBottom: '1rem',
+    lineHeight: 1.1,
+    letterSpacing: -0.5,
     whiteSpace: 'pre-wrap',
   },
+  heroTitleAccent: {
+    color: 'var(--accent)',
+  },
   heroSubtitle: {
-    fontSize: 'clamp(20px, 3vw, 32px)',
-    color: 'rgba(255, 255, 255, 0.5)',
-    marginBottom: '5%',
-    fontWeight: '400',
+    fontSize: 'clamp(14px, 1.1vw, 16px)',
+    color: 'var(--text-muted)',
+    maxWidth: 480,
+    marginBottom: '1.8rem',
   },
   buttonContainer: {
-    alignSelf: 'flex-start',
-  },
-  discoverButton: {
-    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: '0.85rem',
   },
   heroRight: {
     flex: 1,
-    minWidth: '40%',
-    maxWidth: '50%',
-    minHeight: '30vh',
+    minWidth: 260,
+    alignItems: 'center',
+    justifyContent: 'center',
+    display: 'flex',
   },
-  // Newsletter Styles
+
+  // Contenu de l'écran dans le PhoneFrame
+  phoneScreen: {
+    width: '100%',
+    height: '100%',
+    padding: '0.9rem',
+    boxSizing: 'border-box',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    background:
+      'radial-gradient(circle at top, #020617 0, #020617 55%, #000000 100%)',
+    borderRadius: '2.1rem',
+  },
+  phoneTag: {
+    fontSize: 10,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
+    color: 'var(--accent-soft)',
+  },
+  phoneImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: '1.6rem',
+  },
+
+  // Newsletter
   newsletterContainer: {
-    paddingVertical: '5%',
+    paddingVertical: '4rem',
     paddingHorizontal: '5%',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#020617',
     alignItems: 'center',
   },
   sectionTitle: {
-    fontSize: 'clamp(28px, 4vw, 36px)',
-    fontWeight: '400',
-    color: '#333',
+    fontSize: 'clamp(24px, 3vw, 32px)',
+    fontWeight: '600',
+    color: '#f9fafb',
     textAlign: 'center',
-    marginBottom: '2%',
+    marginBottom: '0.75rem',
   },
   newsletterSubtitle: {
-    fontSize: 'clamp(14px, 2vw, 18px)',
-    color: '#666',
+    fontSize: 'clamp(14px, 1.1vw, 16px)',
+    color: 'var(--text-muted)',
     textAlign: 'center',
-    marginBottom: '4%',
-    maxWidth: '80%',
-    paddingHorizontal: '2%',
+    maxWidth: 520,
   },
   newsletterForm: {
+    marginTop: '1.8rem',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
+    gap: '0.75rem',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 0,
   },
-  // Footer Styles
+  newsletterButton: {
+    marginTop: '0.3rem',
+  },
+
+  // Footer
   footerContainer: {
-    paddingVertical: '3%',
-    paddingHorizontal: '3%',
-    backgroundColor: '#333',
+    paddingVertical: '2.5rem',
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(15, 23, 42, 0.9)',
   },
   footerText: {
-    color: '#ffffff',
+    color: '#9ca3af',
     fontSize: 'clamp(12px, 1vw, 14px)',
   },
 });

@@ -29,6 +29,35 @@ const PilotTest = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Validation des champs obligatoires
+    if (!formData.name.trim()) {
+      alert('Veuillez renseigner votre nom complet');
+      return;
+    }
+    
+    if (!formData.email.trim()) {
+      alert('Veuillez renseigner votre email professionnel');
+      return;
+    }
+    
+    // Validation format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert('Veuillez renseigner un email valide');
+      return;
+    }
+    
+    if (!formData.phone.trim()) {
+      alert('Veuillez renseigner votre numéro de téléphone');
+      return;
+    }
+    
+    // Validation du champ entreprise si type = entreprise
+    if (formData.type === 'entreprise' && !formData.company.trim()) {
+      alert('Veuillez renseigner le nom de votre entreprise');
+      return;
+    }
+    
     // Ici vous pouvez ajouter l'intégration avec votre backend
     console.log('Données du formulaire:', formData);
     

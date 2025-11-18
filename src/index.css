@@ -1,0 +1,31 @@
+:root {
+  --bg-body: #050816;
+  --bg-section: #020617;
+  --bg-card: #020617;
+
+  --accent: #22d3ee;      /* ton turquoise */
+  --accent-soft: #0ea5e9;
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+}
+
+
+
+body {
+  background: radial-gradient(circle at top, #0b1220 0, #020617 45%, #000 100%);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
+}
+
+/* --- Animation du téléphone dans le hero --- */
+
+.hero-phone {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Animation flottante 'crypto' */
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
