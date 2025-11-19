@@ -6,6 +6,8 @@ import '../components/BasicButton.css';
 import '../components/ConnexionButton.css';
 import PhoneFrame from '../components/PhoneFrame';
 
+const ACCENT = '#22d3ee';
+
 const Main = () => {
   const navigate = (page) => {
     if (global.navigateTo) {
@@ -14,25 +16,22 @@ const Main = () => {
   };
 
   const handleLogin = () => {
-    console.log('Connexion cliquée');
     navigate('auth');
   };
 
   const handleDiscoverSolution = () => {
-    console.log('Découvrir la solution cliqué');
     navigate('demo');
   };
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
-    console.log('Email soumis:', email);
-    // Logique d'abonnement à la newsletter ici
+    console.log('Email soumis :', email);
   };
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      {/* Header transparent */}
+      {/* HEADER */}
       <View style={styles.transparentHeader}>
         <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => navigate('main')}>
@@ -49,25 +48,37 @@ const Main = () => {
           </TouchableOpacity>
 
           <View style={styles.headerNav}>
-            <button className="basic-button" onClick={() => navigate('company')}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('company')}
+              style={styles.headerLink}
+            >
               Entreprises
             </button>
 
-            <button className="basic-button" onClick={() => navigate('collaborator')}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('collaborator')}
+              style={styles.headerLink}
+            >
               Collaborateurs
             </button>
 
-            <button className="connexion-button" onClick={handleLogin}>
+            <button
+              className="connexion-button"
+              onClick={handleLogin}
+              style={styles.headerCta}
+            >
               Connexion
             </button>
           </View>
         </View>
       </View>
 
-      {/* Hero Section */}
+      {/* HERO */}
       <View style={styles.heroContainer}>
         <View style={styles.heroContent}>
-          {/* Colonne gauche : texte */}
+          {/* Colonne gauche */}
           <View style={styles.heroLeft}>
             <Text style={styles.heroKicker}>
               Forfait Mobilités Durables & émissions Scope 3
@@ -98,11 +109,10 @@ const Main = () => {
             </View>
           </View>
 
-          {/* Colonne droite : PhoneFrame avec dashboard */}
+          {/* Colonne droite : PhoneFrame */}
           <View style={styles.heroRight}>
             <PhoneFrame width={300} height={580} className="hero-phone">
               <div style={styles.phoneScreen}>
-                <div style={styles.phoneTag}>Vue collaborateur</div>
                 <img
                   src={require('../../public/img/interface-principale-cote-employé.png')}
                   alt="Interface principale Rooty côté employé"
@@ -114,7 +124,7 @@ const Main = () => {
         </View>
       </View>
 
-      {/* Newsletter Section */}
+      {/* NEWSLETTER */}
       <View style={styles.newsletterContainer}>
         <Text style={styles.sectionTitle}>
           Restez informé de l&apos;évolution de ROOTY
@@ -123,18 +133,24 @@ const Main = () => {
           Recevez les nouveautés produit, conseils réglementaires et actualités sur les
           mobilités durables.
         </Text>
+
         <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
-          <div className="inputGroup">
+          <div className="inputGroup" style={styles.newsletterInputWrapper}>
             <input type="email" name="email" required autoComplete="off" />
             <label htmlFor="email">Votre adresse email</label>
           </div>
-          <button type="submit" className="connexion-button" style={styles.newsletterButton}>
+
+          <button
+            type="submit"
+            className="connexion-button"
+            style={styles.newsletterButton}
+          >
             S&apos;abonner
           </button>
         </form>
       </View>
 
-      {/* Footer Section */}
+      {/* FOOTER */}
       <View style={styles.footerContainer}>
         <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
       </View>
@@ -148,7 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#020617',
   },
 
-  // Header
+  /* HEADER */
   transparentHeader: {
     position: 'absolute',
     top: 0,
@@ -156,30 +172,37 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1000,
     backgroundColor: 'transparent',
-    paddingTop: '1.5rem',
+    paddingTop: 24,
+    paddingBottom: 8,
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: '5%',
+    paddingHorizontal: 24,
     maxWidth: 1120,
     width: '100%',
-    marginHorizontal: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   headerNav: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '1rem',
+  },
+  headerLink: {
+    marginLeft: 28,
+  },
+  headerCta: {
+    marginLeft: 40,
   },
 
-  // Hero
+  /* HERO */
   heroContainer: {
     minHeight: '100vh',
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    paddingTop: '7rem',
-    paddingBottom: '5rem',
+    paddingTop: 130,   // laisse la place au header
+    paddingBottom: 80,
     backgroundColor: '#020617',
   },
   heroContent: {
@@ -188,9 +211,9 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: '3rem',
     flexWrap: 'wrap',
-    marginHorizontal: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   heroLeft: {
     flex: 1.2,
@@ -200,33 +223,32 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 2,
     textTransform: 'uppercase',
-    color: 'var(--accent-soft)',
-    marginBottom: '0.75rem',
+    color: ACCENT,
+    marginBottom: 12,
   },
   heroTitle: {
-    fontSize: 'clamp(32px, 4vw, 52px)',
+    fontSize: 34,
     fontWeight: '700',
     color: '#f9fafb',
-    marginBottom: '1rem',
-    lineHeight: 1.1,
-    letterSpacing: -0.5,
-    whiteSpace: 'pre-wrap',
+    marginBottom: 18,
+    lineHeight: 46, // plus d’air entre les lignes
   },
   heroTitleAccent: {
-    color: 'var(--accent)',
+    color: ACCENT,
   },
   heroSubtitle: {
-    fontSize: 'clamp(14px, 1.1vw, 16px)',
-    color: 'var(--text-muted)',
+    fontSize: 16,
+    color: '#9ca3af',
     maxWidth: 480,
-    marginBottom: '1.8rem',
+    marginBottom: 28,
   },
   buttonContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    gap: '0.85rem',
+    gap: 12,
   },
+
   heroRight: {
     flex: 1,
     minWidth: 260,
@@ -235,68 +257,59 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
 
-  // Contenu de l'écran dans le PhoneFrame
+  /* CONTENU DU PHONEFRAME */
   phoneScreen: {
     width: '100%',
     height: '100%',
-    padding: '0.9rem',
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.75rem',
-    background:
-      'radial-gradient(circle at top, #020617 0, #020617 55%, #000000 100%)',
-    borderRadius: '2.1rem',
-  },
-  phoneTag: {
-    fontSize: 10,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-    color: 'var(--accent-soft)',
+    overflow: 'hidden',
+    borderRadius: 24,
   },
   phoneImage: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    borderRadius: '1.6rem',
+    display: 'block',
   },
 
-  // Newsletter
+  /* NEWSLETTER */
   newsletterContainer: {
-    paddingVertical: '4rem',
+    paddingVertical: 64,
     paddingHorizontal: '5%',
     backgroundColor: '#020617',
     alignItems: 'center',
   },
   sectionTitle: {
-    fontSize: 'clamp(24px, 3vw, 32px)',
+    fontSize: 28,
     fontWeight: '600',
     color: '#f9fafb',
     textAlign: 'center',
-    marginBottom: '0.75rem',
+    marginBottom: 8,
   },
   newsletterSubtitle: {
-    fontSize: 'clamp(14px, 1.1vw, 16px)',
-    color: 'var(--text-muted)',
+    fontSize: 16,
+    color: '#9ca3af',
     textAlign: 'center',
     maxWidth: 520,
   },
   newsletterForm: {
-    marginTop: '1.8rem',
+    marginTop: 24,
     display: 'flex',
-    flexDirection: 'row',
-    gap: '0.75rem',
+    flexDirection: 'row',      // input + bouton sur la même ligne
     flexWrap: 'wrap',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  newsletterInputWrapper: {
+    marginRight: 16,           // espace entre input et bouton
+    marginBottom: 8,
   },
   newsletterButton: {
-    marginTop: '0.3rem',
+    marginTop: 0,
   },
 
-  // Footer
+  /* FOOTER */
   footerContainer: {
-    paddingVertical: '2.5rem',
+    paddingVertical: 24,
     paddingHorizontal: '5%',
     backgroundColor: '#020617',
     alignItems: 'center',
@@ -305,7 +318,7 @@ const styles = StyleSheet.create({
   },
   footerText: {
     color: '#9ca3af',
-    fontSize: 'clamp(12px, 1vw, 14px)',
+    fontSize: 13,
   },
 });
 
