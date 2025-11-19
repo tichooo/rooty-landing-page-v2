@@ -33,9 +33,7 @@ ROOTY-landing-page-v2/
 │   └── index.html              # Template HTML principal
 ├── src/
 │   ├── components/
-│   │   ├── Hero.js            # Section hero de la landing page
-│   │   ├── Features.js        # Section des fonctionnalités
-│   │   └── Footer.js          # Pied de page
+│   │   ├── Button.css          # Pied de page
 │   ├── App.js                 # Composant principal
 │   └── index.js               # Point d'entrée de l'application
 ├── .babelrc                   # Configuration Babel
