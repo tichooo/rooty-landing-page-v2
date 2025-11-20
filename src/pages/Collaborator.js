@@ -1,14 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import Header from '../components/Header';
-import '../components/AllButton.css';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import '../components/ButtonStyle.css';
-import '../components/ButtonStyleDark.css';
 import '../components/BasicButton.css';
+import '../components/ConnexionButton.css';
+
+const ACCENT = '#22d3ee';
+const MAX_WIDTH = 1120;
 
 const Collaborator = () => {
+  const navigate = (page) => {
+    if (global.navigateTo) {
+      global.navigateTo(page);
+    }
+  };
+
   const handleDownloadApp = () => {
-    // Utiliser la navigation globale qui gère la vérification de connexion
     if (global.navigateTo) {
       global.navigateTo('download');
     }
@@ -20,48 +26,144 @@ const Collaborator = () => {
     }
   };
 
-  const handleLearnMore = () => {
+  const handleLearnMorePrivacy = () => {
     console.log('En savoir plus sur la confidentialité');
   };
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <Header />
-      
-      {/* Hero Section */}
+      {/* Header */}
+      <View style={styles.transparentHeader}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigate('main')}>
+            <img
+              src={require('../../public/img/Logo-R-bleu.png')}
+              alt="ROOTY Logo"
+              style={{
+                height: 60,
+                width: 225,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.headerNav}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('company')}
+              style={styles.headerLink}
+            >
+              Entreprises
+            </button>
+
+            <button
+              className="basic-button"
+              onClick={() => navigate('collaborator')}
+              style={styles.headerLink}
+            >
+              Collaborateurs
+            </button>
+
+            <button
+              className="connexion-button"
+              onClick={() => navigate('auth')}
+              style={styles.headerCta}
+            >
+              Connexion
+            </button>
+          </View>
+        </View>
+      </View>
+
+      {/* Hero */}
       <View style={styles.heroSection}>
+        <View style={styles.heroInner}>
+          <Text style={styles.heroKicker}>ROOTY pour les collaborateurs</Text>
           <Text style={styles.heroTitle}>
             Validez vos trajets en 1 geste.{'\n'}Gagnez des avantages.
           </Text>
           <Text style={styles.heroSubtitle}>
-            ROOTY détecte votre trajet domicile-travail, vous confirmez en un swipe, 
-            et vous cumulez des points/avantages. Vos données restent anonymisées pour l'entreprise.
+            ROOTY détecte votre trajet domicile-travail, vous confirmez en un swipe, et
+            vous cumulez des points et avantages. Vos données restent anonymisées pour
+            l&apos;entreprise.
           </Text>
+
           <View style={styles.heroCTAContainer}>
-            <button className="learn-more" onClick={handleDownloadApp}>
+            <button
+              className="connexion-button"
+              onClick={handleDownloadApp}
+              style={{ flex: '0 0 auto', width: 'auto' }}
+            >
+              Télécharger l&apos;app
+            </button>
+
+            <button className="learn-more" onClick={handleHowItWorks}>
               <span className="circle" aria-hidden="true">
                 <span className="icon arrow"></span>
               </span>
-              <span className="button-text">Télécharger</span>
-            </button>
-            <button className="all-button" onClick={handleHowItWorks}>
-              <span>Comment ça marche ?</span>
+              <span className="button-text">Comment ça marche ?</span>
             </button>
           </View>
         </View>
+      </View>
 
-        {/* Section FMD */}
-        <View style={styles.fmdSection}>
+      {/* Steps */}
+      <View style={styles.stepsSection}>
+        <View style={styles.stepsInner}>
+          <Text style={styles.sectionTitle}>Comment ça fonctionne ?</Text>
+          <View style={styles.stepsRow}>
+            <View style={styles.stepCard}>
+              <Text style={styles.stepNumber}>01</Text>
+              <View style={styles.stepContent}>
+                <Text style={styles.stepTitle}>ROOTY détecte vos trajets</Text>
+                <Text style={styles.stepDescription}>
+                  L&apos;app se base sur vos habitudes domicile-travail pour proposer vos
+                  trajets, sans guidage GPS imposé.
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.stepCard}>
+              <Text style={styles.stepNumber}>02</Text>
+              <View style={styles.stepContent}>
+                <Text style={styles.stepTitle}>Vous validez en un geste</Text>
+                <Text style={styles.stepDescription}>
+                  Un swipe ou un tap suffit pour confirmer ou ajuster votre déplacement,
+                  à votre rythme.
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.stepCard}>
+              <Text style={styles.stepNumber}>03</Text>
+              <View style={styles.stepContent}>
+                <Text style={styles.stepTitle}>Vous cumulez des avantages</Text>
+                <Text style={styles.stepDescription}>
+                  Vos trajets éligibles alimentent votre prime Forfait Mobilités
+                  Durables et les éventuelles récompenses mises en place par votre
+                  entreprise.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* FMD Section */}
+      <View style={styles.fmdSection}>
+        <View style={styles.fmdInner}>
           <View style={styles.fmdHeader}>
             <Text style={styles.fmdBadge}>Prime FMD</Text>
             <Text style={styles.fmdTitle}>Faites financer vos trajets domicile-travail</Text>
             <Text style={styles.fmdSubtitle}>
-              Le Forfait Mobilités Durables permet à votre employeur de prendre en charge une partie de vos déplacements
-              éco-responsables : vélo, covoiturage, trottinette, transports en commun, et plus encore.
+              Le Forfait Mobilités Durables permet à votre employeur de prendre en charge
+              une partie de vos déplacements éco-responsables : vélo, covoiturage,
+              trottinette, transports en commun, et plus encore.
             </Text>
 
             <View style={styles.fmdHighlightStrip}>
-              <Text style={styles.fmdHighlightMain}>Jusqu'à 900€ / an</Text>
+              <Text style={styles.fmdHighlightMain}>Jusqu&apos;à 900€ / an</Text>
             </View>
           </View>
 
@@ -72,12 +174,13 @@ const Collaborator = () => {
               </View>
               <Text style={styles.fmdCardTitle}>Montant de la prime</Text>
               <Text style={styles.fmdText}>
-                Votre employeur peut verser jusqu'à <Text style={styles.fmdHighlight}>900€ par an </Text> 
-                si le forfait est combiné avec un abonnement de transports en commun, 
-                sinon jusqu'à <Text style={styles.fmdHighlight}>600€ maximum</Text>.
+                Votre employeur peut verser jusqu&apos;à{' '}
+                <Text style={styles.fmdHighlight}>900€ par an</Text> si le forfait est
+                combiné avec un abonnement de transports en commun, sinon jusqu&apos;à{' '}
+                <Text style={styles.fmdHighlight}>600€ maximum</Text>.
               </Text>
               <View style={styles.fmdTag}>
-                <Text style={styles.fmdTagText}>Exonéré de charges & d’impôts* </Text>
+                <Text style={styles.fmdTagText}>Exonéré de charges &amp; d’impôts*</Text>
               </View>
             </View>
 
@@ -103,16 +206,16 @@ const Collaborator = () => {
               </View>
               <Text style={styles.fmdCardTitle}>Modes de transport éligibles</Text>
               <Text style={styles.fmdText}>
-                • Vélo & VAE (perso ou location){'\n'}
+                • Vélo &amp; VAE (perso ou location){'\n'}
                 • Covoiturage (conducteur ou passager){'\n'}
-                • Trottinettes & engins électriques non thermiques{'\n'}
+                • Trottinettes &amp; engins électriques non thermiques{'\n'}
                 • Free-floating (scooters/trottinettes électriques){'\n'}
                 • Autopartage électrique / hybride / hydrogène{'\n'}
                 • Transports en commun (hors abonnement)
               </Text>
               <Text style={styles.fmdNote}>
-                ⚠️ Les scooters thermiques personnels et certains véhicules motorisés individuels
-                ne sont pas éligibles.
+                ⚠️ Les scooters thermiques personnels et certains véhicules motorisés
+                individuels ne sont pas éligibles.
               </Text>
             </View>
           </View>
@@ -133,45 +236,73 @@ const Collaborator = () => {
             </a>
           </View>
         </View>
+      </View>
 
-        {/* FAQ */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Questions fréquentes</Text>
-          
-          <View style={styles.faqItem}>
-            <Text style={styles.faqQuestion}>Dois-je ouvrir l'app tous les jours ?</Text>
-            <Text style={styles.faqAnswer}>
-              Non : l'app détecte et vous confirmez en 1 tap.
-            </Text>
-          </View>
-
-          <View style={styles.faqItem}>
-            <Text style={styles.faqQuestion}>Et si je connais déjà mon trajet ?</Text>
-            <Text style={styles.faqAnswer}>
-              Justement : pas de GPS imposé ni guidage ; validation rapide suffit.
-            </Text>
-          </View>
-
-          <View style={styles.faqItem}>
-            <Text style={styles.faqQuestion}>Je ne veux pas être suivi·e.</Text>
-            <Text style={styles.faqAnswer}>
-              Vous pouvez choisir le niveau d'automatisation, mettre en pause et supprimer vos dernières données.
-            </Text>
-          </View>
-        </View>
-
-        {/* Footer CTA */}
-        <View style={styles.footerCTA}>
-          <Text style={styles.footerCTATitle}>
-            Prêt à simplifier vos trajets domicile-travail ?
+      {/* Privacy + FAQ */}
+      <View style={styles.section}>
+        <View style={styles.sectionInner}>
+          <Text style={[styles.sectionTitle, { textAlign: 'center' }]}>
+            Vos données, vos choix
           </Text>
-          <button className="learn-more-dark" onClick={handleDownloadApp}>
-            <span className="circle" aria-hidden="true">
-              <span className="icon arrow"></span>
-            </span>
-            <span className="button-text">Télécharger</span>
+          <Text
+            style={[
+              styles.sectionText,
+              { textAlign: 'center', alignSelf: 'center' },
+            ]}
+          >
+            ROOTY est conçu pour respecter votre vie privée : vous choisissez le niveau
+            d&apos;automatisation, vous pouvez mettre en pause la détection et supprimer
+            vos dernières données.
+          </Text>
+          <button
+            className="basic-button"
+            style={{ marginTop: 16 }}
+            onClick={handleLearnMorePrivacy}
+          >
+            En savoir plus sur la confidentialité
           </button>
+
+          <View style={styles.faqBlock}>
+            <Text style={styles.faqTitle}>Questions fréquentes</Text>
+
+            <View style={styles.faqItem}>
+              <Text style={styles.faqQuestion}>Dois-je ouvrir l&apos;app tous les jours ?</Text>
+              <Text style={styles.faqAnswer}>
+                Non : l&apos;app détecte vos trajets et vous les confirmez en un tap.
+              </Text>
+            </View>
+
+            <View style={styles.faqItem}>
+              <Text style={styles.faqQuestion}>Et si je connais déjà mon trajet ?</Text>
+              <Text style={styles.faqAnswer}>
+                Justement : pas de GPS imposé ni guidage ; une validation rapide suffit.
+              </Text>
+            </View>
+
+            <View style={styles.faqItem}>
+              <Text style={styles.faqQuestion}>Je ne veux pas être suivi·e.</Text>
+              <Text style={styles.faqAnswer}>
+                Vous pouvez choisir le niveau d&apos;automatisation, mettre l&apos;app en
+                pause et supprimer vos dernières données.
+              </Text>
+            </View>
+          </View>
         </View>
+      </View>
+
+      {/* Footer CTA */}
+      <View style={styles.footerCTA}>
+        <Text style={styles.footerCTATitle}>
+          Prêt à simplifier vos trajets domicile-travail ?
+        </Text>
+        <button
+          className="connexion-button"
+          onClick={handleDownloadApp}
+          style={{ marginTop: 16, flex: '0 0 auto', width: 'auto' }}
+        >
+          Télécharger l&apos;app
+        </button>
+      </View>
 
       {/* Footer */}
       <View style={styles.footer}>
@@ -179,445 +310,337 @@ const Collaborator = () => {
       </View>
     </ScrollView>
   );
-};const styles = StyleSheet.create({
+};
+
+const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#020617',
   },
-  heroSection: {
-    paddingHorizontal: 60,
-    paddingVertical: 100,
+
+  /* HEADER */
+  transparentHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingTop: 24,
+    paddingBottom: 8,
+    backgroundColor: 'transparent',
+  },
+  headerContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  headerNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerLink: {
+    marginLeft: 28,
+  },
+  headerCta: {
+    marginLeft: 40,
+  },
+
+  /* HERO */
+  heroSection: {
+    paddingTop: 140,
+    paddingBottom: 80,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+  },
+  heroInner: {
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    alignItems: 'center',
+  },
+  heroKicker: {
+    fontSize: 12,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    color: ACCENT,
+    marginBottom: 12,
   },
   heroTitle: {
-    fontSize: 52,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 42,          // 36 -> 42
+    fontWeight: '700',
+    color: '#f9fafb',
     textAlign: 'center',
-    marginBottom: 24,
-    maxWidth: 900,
+    lineHeight: 52,        // 44 -> 52 pour garder de l'air
+    marginBottom: 20,      // 16 -> 20
   },
+
   heroSubtitle: {
-    fontSize: 20,
-    color: '#666',
+    fontSize: 17,          // 16 -> 17 (optionnel)
+    color: '#9ca3af',
     textAlign: 'center',
-    marginBottom: 40,
-    maxWidth: 800,
-    lineHeight: 32,
+    maxWidth: 540,
+    marginBottom: 28,      // 24 -> 28
   },
+
   heroCTAContainer: {
     flexDirection: 'row',
-    gap: 20,
     flexWrap: 'wrap',
     justifyContent: 'center',
-  },
-  section: {
-    paddingHorizontal: 60,
-    paddingVertical: 60,
     alignItems: 'center',
+    gap: 12,
+  },
+
+  /* STEPS */
+  stepsSection: {
+    paddingVertical: 72,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+  },
+  stepsInner: {
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   sectionTitle: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 40,
-    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 24,
+    textAlign: 'left',
+  },
+  stepsRow: {
+    flexDirection: 'column',
+    rowGap: 16,
   },
   stepCard: {
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 30,
-    marginBottom: 20,
-    width: '100%',
-    maxWidth: 800,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 18,
+    borderRadius: 16,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.5)',
   },
   stepNumber: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#5CC9B4',
-    marginRight: 24,
-    width: 60,
+    fontSize: 28,
+    fontWeight: '700',
+    color: ACCENT,
+    marginRight: 16,
+    width: 44,
     textAlign: 'center',
   },
   stepContent: {
     flex: 1,
   },
   stepTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 4,
   },
   stepDescription: {
-    fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
   },
-  valueGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 24,
-    justifyContent: 'center',
-    maxWidth: 1200,
+
+  /* FMD */
+  fmdSection: {
+    paddingVertical: 64,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
   },
-  valueCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 32,
-    width: 280,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-    alignItems: 'center',
-  },
-  valueIcon: {
-    fontSize: 48,
-    marginBottom: 16,
-  },
-  valueTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  valueDescription: {
-    fontSize: 15,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  appPreviewSection: {
-    paddingHorizontal: 60,
-    paddingVertical: 60,
-    backgroundColor: '#f8f9fa',
-    alignItems: 'center',
-  },
-  appScreensContainer: {
-    flexDirection: 'row',
-    gap: 24,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    maxWidth: 1200,
-  },
-  appScreen: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 32,
-    width: 280,
-    minHeight: 200,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-    borderWidth: 2,
-    borderColor: '#5CC9B4',
-  },
-  appScreenTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  appScreenDescription: {
-    fontSize: 15,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 22,
-  },
-  privacySection: {
-    paddingHorizontal: 60,
-    paddingVertical: 60,
-    backgroundColor: 'rgba(92, 201, 180, 0.08)',
-    alignItems: 'center',
-  },
-  bulletList: {
+  fmdInner: {
+    maxWidth: MAX_WIDTH,
     width: '100%',
-    maxWidth: 800,
-    marginBottom: 32,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
-  bulletItem: {
-    flexDirection: 'row',
+  fmdHeader: {
     alignItems: 'flex-start',
-    marginBottom: 20,
+    marginBottom: 24,
   },
-  bullet: {
+  fmdBadge: {
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    color: ACCENT,
+    marginBottom: 8,
+  },
+  fmdTitle: {
     fontSize: 24,
-    marginRight: 16,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 10,
   },
-  bulletText: {
-    fontSize: 17,
-    color: '#333',
-    flex: 1,
-    lineHeight: 26,
+  fmdSubtitle: {
+    fontSize: 15,
+    color: '#9ca3af',
+    maxWidth: 620,
+    lineHeight: 22,
+    marginBottom: 16,
   },
-  learnMoreButton: {
+  fmdHighlightStrip: {
+    paddingVertical: 15,
+  },
+  fmdHighlightMain: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f9fafb',
+  },
+  fmdGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    rowGap: 18,
+    columnGap: 18,
     marginTop: 8,
   },
-  rewardsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 20,
-    justifyContent: 'center',
-    maxWidth: 1000,
-    marginBottom: 24,
-  },
-  rewardCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 24,
-    width: 220,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  rewardIcon: {
-    fontSize: 40,
-    marginBottom: 12,
-  },
-  rewardText: {
-    fontSize: 16,
-    color: '#333',
-    textAlign: 'center',
-    fontWeight: '500',
-  },
-  microCopy: {
-    fontSize: 15,
-    color: '#666',
-    textAlign: 'center',
-    fontStyle: 'italic',
-    maxWidth: 600,
-    lineHeight: 24,
-  },
-  faqItem: {
-    width: '100%',
-    maxWidth: 800,
-    marginBottom: 32,
-  },
-  faqQuestion: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 12,
-  },
-  faqAnswer: {
-    fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
-  },
-  footerCTA: {
-    paddingHorizontal: 60,
-    paddingVertical: 80,
-    backgroundColor: '#333',
-    alignItems: 'center',
-  },
-  footerCTATitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 32,
-    textAlign: 'center',
-    maxWidth: 700,
-  },
-  footer: {
-    paddingVertical: 40,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 14,
-    color: '#999',
-  },
-  
-  fmdSection: {
-    paddingHorizontal: 60,
-    paddingVertical: 80,
-    backgroundColor: '#ecececff',
-    alignItems: 'center',
-  },
-
-  fmdHeader: {
-    maxWidth: 800,
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-
-  fmdBadge: {
-    fontSize: 14,
-    fontWeight: '600',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 999,
-    backgroundColor: '#dcfce7',
-    color: '#16a34a',
-    marginBottom: 12,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-
-  fmdTitle: {
-    fontSize: 34,
-    fontWeight: '800',
-    color: '#111827',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-
-  fmdSubtitle: {
-    fontSize: 17,
-    color: '#4b5563',
-    marginBottom: 24,
-    textAlign: 'center',
-    lineHeight: 26,
-  },
-
-  fmdHighlightStrip: {
-    marginTop: 4,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 999,
-    backgroundColor: '#022c22',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.12,
-    shadowRadius: 20,
-    elevation: 4,
-  },
-
-  fmdHighlightMain: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#bbf7d0',
-  },
-
-  fmdHighlightSub: {
-    fontSize: 14,
-    color: '#a7f3d0',
-    marginTop: 2,
-  },
-
-  fmdHighlightSubMuted: {
-    fontSize: 13,
-    color: '#6ee7b7',
-    marginTop: 2,
-  },
-
-  fmdGrid: {
-    width: '100%',
-    maxWidth: 1000,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 24,
-    marginBottom: 32,
-  },
-
   fmdCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 18,
-    padding: 22,
-    flexBasis: '30%',
-    minWidth: 260,
-    maxWidth: 320,
+    flexBasis: 300,
     flexGrow: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.07,
-    shadowRadius: 20,
-    elevation: 3,
+    backgroundColor: '#020617',
+    borderRadius: 18,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
+    borderColor: 'rgba(148, 163, 184, 0.5)',
+    padding: 18,
   },
-
   fmdCardIcon: {
     width: 40,
     height: 40,
     borderRadius: 999,
-    backgroundColor: '#ecfdf5',
+    backgroundColor: '#0b1120',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
-
   fmdCardIconText: {
-    fontSize: 20,
+    fontSize: 22,
   },
-
   fmdCardTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#111827',
-    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 6,
   },
-
   fmdText: {
-    fontSize: 15,
-    color: '#4b5563',
-    lineHeight: 24,
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
   },
-
   fmdHighlight: {
-    fontWeight: '700',
-    color: '#059669',
+    color: ACCENT,
+    fontWeight: '600',
   },
-
-  fmdHint: {
-    marginTop: 10,
-    fontSize: 13,
-    color: '#6b7280',
-    fontStyle: 'italic',
-  },
-
-  fmdNote: {
-    fontSize: 13,
-    color: '#b45309',
-    marginTop: 12,
-    fontStyle: 'italic',
-    lineHeight: 22,
-  },
-
   fmdTag: {
-    marginTop: 14,
+    marginTop: 10,
     alignSelf: 'flex-start',
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 8,
     borderRadius: 999,
-    backgroundColor: '#eef2ff',
+    borderWidth: 1,
+    borderColor: 'rgba(34,211,238,0.6)',
   },
-
   fmdTagText: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#4f46e5',
+    color: '#f9fafb',
   },
-
+  fmdHint: {
+    fontSize: 13,
+    color: '#9ca3af',
+    marginTop: 8,
+  },
+  fmdNote: {
+    fontSize: 13,
+    color: '#9ca3af',
+    marginTop: 8,
+  },
   fmdFooter: {
-    width: '100%',
-    maxWidth: 1000,
-    alignItems: 'center',
-    gap: 8,
+    marginTop: 20,
+    gap: 10,
+    alignItems: 'flex-start',
   },
-
   fmdDisclaimer: {
     fontSize: 12,
     color: '#9ca3af',
+  },
+
+  /* PRIVACY + FAQ */
+  section: {
+    paddingVertical: 60,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+  },
+  sectionInner: {
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  sectionText: {
+    fontSize: 15,
+    color: '#9ca3af',
+    maxWidth: 620,
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+  faqBlock: {
+    marginTop: 24,
+  },
+  faqTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 16,
+  },
+  faqItem: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(30, 41, 59, 0.8)',
+  },
+  faqQuestion: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 4,
+  },
+  faqAnswer: {
+    fontSize: 14,
+    color: '#9ca3af',
+  },
+
+  /* FOOTER CTA */
+  footerCTA: {
+    paddingVertical: 60,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+    alignItems: 'center',
+  },
+  footerCTATitle: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#f9fafb',
     textAlign: 'center',
+  },
+
+  /* FOOTER */
+  footer: {
+    paddingVertical: 30,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(15, 23, 42, 0.9)',
+  },
+  footerText: {
+    color: '#9ca3af',
+    fontSize: 13,
   },
 });
 

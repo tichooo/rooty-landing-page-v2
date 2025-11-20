@@ -1,25 +1,27 @@
-﻿// Company.js
-import React, { useState } from 'react';
-import { Image } from 'react-native';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import Header from '../components/Header';
-import '../components/AllButton.css';
-import '../components/ButtonStyle.css';
-import '../components/ButtonStyleDark.css';
-import '../components/FillEmail.css';
+﻿// Company.js – version corrigée (largeur + hero + process + CTA/newsletter 2 colonnes)
 
-const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get('window');
-const IMAGE_H = Math.max(280, Math.round(SCREEN_H * 0.65)); // remplace 60vh
-const IMAGE_W = Math.round(IMAGE_H * 14.1 / 9); // ratio 16:9
-const P = 16; // padding de base
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import '../components/ButtonStyle.css';
+import '../components/FillEmail.css';
+import '../components/BasicButton.css';
+import '../components/ConnexionButton.css';
+
+const ACCENT = '#22d3ee';
+const MAX_WIDTH = 1320;
 
 export default function Company() {
-  const handleDemoRequest = () => {
+  const [email, setEmail] = useState('');
+
+  const navigate = (page) => {
     if (global.navigateTo) {
-      global.navigateTo('demo');
+      global.navigateTo(page);
     }
   };
-  const [email, setEmail] = useState('');
+
+  const handleDemoRequest = () => {
+    navigate('demo');
+  };
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
@@ -29,28 +31,95 @@ export default function Company() {
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <Header />
+      {/* HEADER */}
+      <View style={styles.transparentHeader}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigate('main')}>
+            <img
+              src={require('../../public/img/Logo-R-bleu.png')}
+              alt="ROOTY Logo"
+              style={{
+                height: 60,
+                width: 225,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
+          </TouchableOpacity>
 
-      {/* === HERO === */}
-      <View style={styles.heroSection}>
-        <View style={styles.heroImageContainer}>
-          <Image
-            source={require('../../public/img/Dashboard-entreprise.png')}
-            style={styles.heroImage}
-            resizeMode="contain"
-          />
+          <View style={styles.headerNav}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('company')}
+              style={styles.headerLink}
+            >
+              Entreprises
+            </button>
 
-          {/* Carte par-dessus l'image */}
-          <OverlayCard />
+            <button
+              className="basic-button"
+              onClick={() => navigate('collaborator')}
+              style={styles.headerLink}
+            >
+              Collaborateurs
+            </button>
+
+            <button
+              className="connexion-button"
+              onClick={() => navigate('auth')}
+              style={styles.headerCta}
+            >
+              Connexion
+            </button>
+          </View>
         </View>
       </View>
 
-      {/* Section: Ce que nous résolvons */}
+      {/* HERO : Dashboard + card partiellement superposée */}
+      <View style={styles.heroSection}>
+        <View style={styles.heroInner}>
+          <View style={styles.heroImageContainer}>
+            <Image
+              source={require('../../public/img/Dashboard-entreprise.png')}
+              style={styles.heroImage}
+              resizeMode="contain"
+            />
+
+            {/* card qui déborde sous l'image (20–30 % de superposition) */}
+            <View style={styles.heroOverlayCard}>
+              <Text style={styles.heroOverlayKicker}>ROOTY pour les entreprises</Text>
+              <Text style={styles.heroOverlayTitle}>
+                Un pilotage Scope 3.7{'\n'}sans Excel.
+              </Text>
+              <Text style={styles.heroOverlaySubtitle}>
+                Visualisez vos émissions liées aux trajets domicile-travail, suivez la
+                prime FMD et objectivez vos actions de mobilité durable.
+              </Text>
+
+              <View style={styles.heroOverlayBullets}>
+                <Text style={styles.heroOverlayBullet}>• Collecte automatique des trajets</Text>
+                <Text style={styles.heroOverlayBullet}>• Indicateurs prêts pour vos reportings</Text>
+                <Text style={styles.heroOverlayBullet}>• Suivi du budget FMD et de l&apos;impact CO₂</Text>
+              </View>
+
+              <button
+                className="connexion-button"
+                onClick={handleDemoRequest}
+                style={{ marginTop: 20, flex: '0 0 auto', width: 'auto' }}
+              >
+                Demander une démo
+              </button>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* AVANTAGES */}
       <View style={styles.benefitsSection}>
         <View style={styles.benefitsHeader}>
           <View style={styles.benefitsDash} />
           <Text style={styles.benefitsTitle}>
-            Avantages que vous obtenez en{'\n'}utilisant nos services
+            Avantages que vous obtenez en{'\n'}utilisant ROOTY
           </Text>
         </View>
 
@@ -59,7 +128,7 @@ export default function Company() {
           <View style={styles.benefitItem}>
             <View style={styles.benefitIconWrap}>
               <Image
-                source={require('../../public/img/icons/peu-reponses.png')} // remplace si besoin
+                source={require('../../public/img/icons/peu-reponses.png')}
                 style={styles.benefitIcon}
                 resizeMode="contain"
               />
@@ -67,7 +136,8 @@ export default function Company() {
             <View style={styles.benefitTextCol}>
               <Text style={styles.benefitTitle}>Faible participation des collaborateurs</Text>
               <Text style={styles.benefitText}>
-                Des processus automatisés qui minimisent l'effort requis de la part des employés.
+                Un parcours simple et ludique pour encourager la déclaration des trajets
+                et valoriser les mobilités durables.
               </Text>
             </View>
           </View>
@@ -84,7 +154,8 @@ export default function Company() {
             <View style={styles.benefitTextCol}>
               <Text style={styles.benefitTitle}>Données partielles ou déclaratives</Text>
               <Text style={styles.benefitText}>
-                Des données collectées automatiquement et des rapports précis pour des décisions éclairées.
+                Une donnée consolidée et exploitable, prête pour vos bilans GES et
+                reportings réglementaires.
               </Text>
             </View>
           </View>
@@ -99,375 +170,443 @@ export default function Company() {
               />
             </View>
             <View style={styles.benefitTextCol}>
-              <Text style={styles.benefitTitle}>Faible fiabilité des trajets domicile-travail</Text>
+              <Text style={styles.benefitTitle}>Fiabilité limitée des trajets</Text>
               <Text style={styles.benefitText}>
-                Une précision accrue grâce à une collecte automatisée des données.
+                Une précision accrue grâce à une collecte automatisée et une
+                catégorisation des modes de transport.
               </Text>
             </View>
           </View>
         </View>
       </View>
 
-      {/* Footer CTA */}
-      <View style={styles.footerCTA}>
-        <Text style={styles.footerCTATitle}>
-          Prêt à objectiver et réduire votre Scope 3.7 ?
-        </Text>
-        <button className="learn-more-dark" onClick={handleDemoRequest}>
-          <span className="circle" aria-hidden="true">
-            <span className="icon arrow"></span>
-          </span>
-          <span className="button-text">Demander une démo</span>
-        </button>
-      </View>
-
-      {/* Section: Alignement RSE */}
-      <View style={styles.alignmentSection}>
-        <View style={styles.alignmentImageContainer}>
-          <Image
-            source={require('../../public/img/entreprise1.png')}
-            style={styles.alignmentImage}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.alignmentTextContainer}>
-          <Text style={styles.alignmentTitle}>
-            Rooty aligne les enjeux RSE et la motivation des collaborateurs.
-          </Text>
-        </View>
-      </View>
-
-      {/* Section: Images Process */}
+      {/* PROCESS EN 3 ÉTAPES : entreprise 1, 2, 3 */}
       <View style={styles.processSection}>
-        <View style={styles.processImageWrapper}>
-          <Image
-            source={require('../../public/img/entreprise2.png')}
-            style={styles.processImage}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.processImageWrapper}>
-          <Image
-            source={require('../../public/img/entreprise3.png')}
-            style={styles.processImage}
-            resizeMode="contain"
-          />
-        </View>
-      </View>
+        <Text style={styles.processTitle}>Un process simple et automatisé</Text>
 
-      {/* Newsletter Section */}
-      <View style={styles.newsletterSection}>
-        <Text style={styles.newsletterTitle}>Restez informé</Text>
-        <Text style={styles.newsletterSubtitle}>
-          Inscrivez-vous à notre newsletter pour recevoir les dernières actualités
-        </Text>
-        <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
-          <div className="inputGroup" style={{ width: '100%' }}>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+        <View style={styles.processStepsRow}>
+          {/* Étape 1 */}
+          <View style={styles.processStepCard}>
+            <Text style={styles.processStepLabel}>Étape 1</Text>
+            <Image
+              source={require('../../public/img/entreprise1.png')}
+              style={styles.processImage}
+              resizeMode="contain"
             />
-            <label>Votre adresse email</label>
-          </div>
-          <button type="submit" className="all-button" style={{ alignSelf: 'center' }}>
-            <span className="button-text">S'inscrire</span>
-            <span className="button-overlay"></span>
-          </button>
-        </form>
+            <Text style={styles.processStepTitle}>
+              Les employés renseignent ou valident leurs trajets.
+            </Text>
+            <Text style={styles.processCaption}>
+              Application simple (1 clic par semaine) ou détection automatique. Rooty
+              calcule l&apos;impact CO₂ et les jours de mobilité douce.
+            </Text>
+          </View>
+
+          {/* Étape 2 */}
+          <View style={styles.processStepCard}>
+            <Text style={styles.processStepLabel}>Étape 2</Text>
+            <Image
+              source={require('../../public/img/entreprise2.png')}
+              style={styles.processImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.processStepTitle}>
+              Rooty alimente le reporting Scope 3 entreprise.
+            </Text>
+            <Text style={styles.processCaption}>
+              Données agrégées, fiables et conformes aux standards (GHG Protocol), prêtes
+              pour vos reportings RSE.
+            </Text>
+          </View>
+
+          {/* Étape 3 */}
+          <View style={styles.processStepCard}>
+            <Text style={styles.processStepLabel}>Étape 3</Text>
+            <Image
+              source={require('../../public/img/entreprise3.png')}
+              style={styles.processImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.processStepTitle}>
+              Les RH récompensent automatiquement les collaborateurs.
+            </Text>
+            <Text style={styles.processCaption}>
+              Versement de la prime FMD et suivi des statuts, avec une vision claire pour
+              les équipes RH, RSE et Finance.
+            </Text>
+          </View>
+        </View>
       </View>
 
-      {/* Footer */}
+      {/* CTA + NEWSLETTER côte à côte */}
+      <View style={styles.ctaNewsletterSection}>
+        <View style={styles.ctaColumn}>
+          <Text style={styles.footerCTATitle}>
+            Prêt à objectiver et réduire votre Scope 3.7 ?
+          </Text>
+          <Text style={styles.footerCTAText}>
+            Planifiez une démo de ROOTY pour découvrir comment simplifier votre reporting
+            et engager vos collaborateurs.
+          </Text>
+          <button className="connexion-button" onClick={handleDemoRequest}>
+            Demander une démo
+          </button>
+        </View>
+
+        <View style={styles.newsletterColumn}>
+          <Text style={styles.newsletterTitle}>
+            Restez informé de l&apos;évolution de ROOTY
+          </Text>
+          <Text style={styles.newsletterSubtitle}>
+            Recevez les nouveautés produit, conseils réglementaires et actualités sur les
+            mobilités durables.
+          </Text>
+
+          <form onSubmit={handleNewsletterSubmit} style={styles.newsletterForm}>
+            <div className="inputGroup" style={styles.newsletterInputWrapper}>
+              <input
+                type="email"
+                name="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+              />
+              <label htmlFor="email">Votre adresse email</label>
+            </div>
+            <button
+              type="submit"
+              className="connexion-button"
+              style={{ flex: '0 0 auto', width: 'auto' }}
+            >
+              S&apos;inscrire
+            </button>
+          </form>
+        </View>
+      </View>
+
+      {/* FOOTER */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
       </View>
-
-      {/* ... le reste de ta page (FAQ, footer) ... */}
     </ScrollView>
-  );
-}
-
-/** 
- * Carte superposée : 70% à gauche de l'image, 30% qui chevauche.
- * On mesure la largeur/hauteur de la carte avec onLayout pour calculer la translation.
- */
-function OverlayCard() {
-  const [dims, setDims] = useState({ w: 0, h: 0 });
-
-  return (
-    <View
-      onLayout={(e) => {
-        const { width, height } = e.nativeEvent.layout;
-        if (width !== dims.w || height !== dims.h) setDims({ w: width, h: height });
-      }}
-      style={[
-        styles.heroOverlayCardBase,
-        // Positionnement dynamique seulement après mesure :
-        dims.w > 0 && dims.h > 0 && {
-          left: 0,                  // s’ancre au bord gauche du container image
-          top: IMAGE_H / 2,         // base : milieu vertical du container
-          transform: [
-            { translateX: -0.6 * dims.w }, // 70% de la largeur sort vers la gauche
-            { translateY: -0.7 * dims.h }, // centrage vertical
-          ],
-        },
-      ]}
-    >
-      <Text style={styles.heroOverlayTitle}>
-        Un outil de pilotage Scope 3 intelligent
-      </Text>
-      <Text style={styles.heroOverlaySubtitle}>
-        Automatiser le reporting des émissions "Trajets domicile-travail".
-      </Text>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#020617',
   },
 
-  /** HERO */
-  heroSection: {
-    paddingVertical: 24,   // remplace '5%'
-    paddingHorizontal: 20, // remplace '5%'
+  /* HEADER */
+  transparentHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingTop: 24,
+    paddingBottom: 8,
+    backgroundColor: 'transparent',
+  },
+  headerContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  headerNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerLink: {
+    marginLeft: 28,
+  },
+  headerCta: {
+    marginLeft: 40,
+  },
+
+  /* HERO */
+  heroSection: {
+    paddingTop: 140,
+    paddingBottom: 80,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+  },
+  heroInner: {
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    alignItems: 'center',
   },
   heroImageContainer: {
-    width: IMAGE_W,
-    maxWidth: 1500,
-    height: IMAGE_H,
-    marginBottom: 24,
+    width: '100%',
     position: 'relative',
-    overflow: 'visible',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
+    alignSelf: 'center',
   },
-
   heroImage: {
     width: '100%',
-    height: '100%',
-    borderRadius: 1,
+    height: 420,
+    borderRadius: 24,
+  },
+  heroOverlayCard: {
+    position: 'absolute',
+    left: 32,
+    bottom: -60,               // déborde moins
+    maxWidth: 340,             // card plus petite
+    padding: 16,
+    borderRadius: 18,
+    backgroundColor: 'rgba(15, 23, 42, 0.98)',
+    borderWidth: 1,
+    borderColor: 'rgba(34, 211, 238, 0.6)',
+    shadowColor: '#000',
+    shadowOpacity: 0.45,
+    shadowOffset: { width: 0, height: 18 },
+    shadowRadius: 32,
   },
 
-  // Base de la carte (le positionnement dynamique est ajouté dans OverlayCard)
-  heroOverlayCardBase: {
-    position: 'absolute',
-    zIndex: 2,
-    backgroundColor: '#5c6c78',
-    paddingVertical: 16,     // remplace '%'
-    paddingHorizontal: 20,   // remplace '%'
-    borderRadius: 12,
-    width: Math.min(420, SCREEN_W * 0.6), // largeur raisonnable (max 420)
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 8,
-    alignItems: 'flex-start',
+  heroOverlayKicker: {
+    fontSize: 11,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    color: ACCENT,
+    marginBottom: 4,
   },
   heroOverlayTitle: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 8,
-    lineHeight: 32,
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#f9fafb',
+    marginBottom: 6,
   },
   heroOverlaySubtitle: {
-    fontSize: 16,
-    color: '#fff',
-    lineHeight: 22,
+    fontSize: 13,
+    color: '#e5e7eb',
+    marginBottom: 8,
   },
 
-  /** FOOTER CTA (inchangé) */
-  footerCTA: {
-    paddingVertical: 32,
-    paddingHorizontal: 20,
-    backgroundColor: '#5c6c78',
-    alignItems: 'center',
+  heroOverlayBullets: {
+    marginBottom: 14,
   },
-  footerCTATitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 20,
-    textAlign: 'center',
+  heroOverlayBullet: {
+    fontSize: 13,
+    color: '#9ca3af',
+    marginBottom: 4,
   },
 
-  /* === BENEFITS === */
+  /* BENEFICES */
   benefitsSection: {
-    paddingVertical: 40,
-    paddingHorizontal: 20,
-    backgroundColor: '#fff',
-    alignItems: 'stretch',
+    paddingTop: 120, // pour compenser la card qui déborde
+    paddingBottom: 64,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
   },
-
-  // Bande + Titre (gauche)
   benefitsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 46,
     marginBottom: 28,
+    maxWidth: MAX_WIDTH,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   benefitsDash: {
     width: 56,
     height: 2,
-    backgroundColor: '#1f2937', // gris foncé
     borderRadius: 1,
+    backgroundColor: ACCENT,
+    marginRight: 18,
   },
   benefitsTitle: {
-    flexShrink: 1,
-    fontSize: 28,           // proche du rendu (utilise 32 si tu veux plus grand)
-    fontWeight: '800',
-    color: '#111827',
-    lineHeight: 34,
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#f9fafb',
   },
-
-  // Grille de 3 blocs (responsive sans media-queries)
   benefitsGrid: {
+    maxWidth: MAX_WIDTH,
+    marginLeft: 'auto',
+    marginRight: 'auto',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    gap: 24,                 // RN web supporte gap
+    rowGap: 18,
   },
-
-  // Carte
   benefitItem: {
-    flexBasis: '31%',        // ~3 colonnes
-    minWidth: 260,           // empile correctement sur petits écrans
-    maxWidth: 380,
-    flexGrow: 1,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 16,
+    padding: 18,
+    borderRadius: 18,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.5)',
+    maxWidth: 380,
+    flexGrow: 1,
   },
-
   benefitIconWrap: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
+    borderRadius: 999,
+    backgroundColor: '#0b1120',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 14,
   },
   benefitIcon: {
-    width: 40,
-    height: 40,
-    opacity: 1.2,
+    width: 32,
+    height: 32,
   },
-
   benefitTextCol: {
     flex: 1,
   },
   benefitTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#111827',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f9fafb',
     marginBottom: 4,
   },
   benefitText: {
     fontSize: 14,
-    color: '#6b7280',
-    lineHeight: 20,
+    color: '#9ca3af',
   },
 
-
-  /** ALIGNMENT SECTION */
-  alignmentSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    backgroundColor: '#ffffffff',
-    maxWidth: 1200,
-    width: '100%',
-    marginHorizontal: 'auto',
-    gap: 40,
-  },
-  alignmentImageContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  alignmentImage: {
-    width: '100%',
-    height: 400,
-  },
-  alignmentTextContainer: {
-    flex: 1,
-  },
-  alignmentTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#333',
-    lineHeight: 42,
-    justifyContent: 'flex-end',
-  },
-
-  /** PROCESS SECTION */
+  /* PROCESS 3 ÉTAPES */
   processSection: {
-    flexDirection: 'row',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20,
-    maxWidth: 1400,
-    width: '100%',
-    marginHorizontal: 'auto',
+    paddingVertical: 64,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
   },
-  processImageWrapper: {
-    flex: 1,
-    alignItems: 'center',
+  processTitle: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#f9fafb',
+    textAlign: 'center',
+    marginBottom: 28,
+  },
+  processStepsRow: {
+    maxWidth: MAX_WIDTH,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',   // meilleure répartition
+    gap: 24,
+  },
+
+  processStepCard: {
+    flexBasis: 320,
+    maxWidth: 360,
+    backgroundColor: '#020617',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.5)',
+    padding: 16,
   },
   processImage: {
     width: '100%',
-    height: 350,
+    height: 250,       // plus grand qu’avant
+    marginBottom: 10,
   },
 
-  /** NEWSLETTER SECTION */
-  newsletterSection: {
-    paddingVertical: 60,
-    paddingHorizontal: 20,
-    backgroundColor: '#f9fafb',
-    alignItems: 'center',
+  processStepLabel: {
+    fontSize: 11,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    color: ACCENT,
+    marginBottom: 8,
+  },
+  
+  processStepTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 6,
+  },
+  processCaption: {
+    fontSize: 13,
+    color: '#9ca3af',
+  },
+
+  /* CTA + NEWSLETTER EN 2 COLONNES */
+  ctaNewsletterSection: {
+    paddingVertical: 64,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
+    maxWidth: MAX_WIDTH,
     width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    rowGap: 32,
+  },
+
+  ctaColumn: {
+    flex: 1,
+    minWidth: 320,
+    marginBottom: 0,
+    paddingRight: 24,
+  },
+  newsletterColumn: {
+    flex: 1,
+    minWidth: 320,
+    marginBottom: 0,
+    paddingLeft: 24,
+  },
+
+  footerCTATitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 10,
+  },
+  footerCTAText: {
+    fontSize: 15,
+    color: '#9ca3af',
+    maxWidth: 520,
+    marginBottom: 20,
   },
   newsletterTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 12,
-    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 8,
   },
   newsletterSubtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 32,
-    textAlign: 'center',
-    maxWidth: 500,
+    fontSize: 15,
+    color: '#9ca3af',
+    maxWidth: 520,
   },
   newsletterForm: {
-    flexDirection: 'column',
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     alignItems: 'center',
-    gap: 16,
-    maxWidth: 600,
-    width: '100%',
+    justifyContent: 'flex-start',
+    columnGap: 16,
+    rowGap: 12,
+  },
+  newsletterInputWrapper: {
+    minWidth: 260,
   },
 
-  /** FOOTER */
+  /* FOOTER */
   footer: {
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    backgroundColor: '#5c6c78',
+    paddingVertical: 24,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(15, 23, 42, 0.9)',
   },
   footerText: {
-    color: '#ffffff',
-    fontSize: 14,
+    color: '#9ca3af',
+    fontSize: 13,
   },
 });
