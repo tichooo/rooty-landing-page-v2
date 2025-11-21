@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import Header from '../components/Header';
+import '../components/BasicButton.css';
+import '../components/ConnexionButton.css';
+
+const ACCENT = '#22d3ee';
+const MAX_WIDTH = 1120;
 
 const PilotTest = () => {
   const [formData, setFormData] = useState({
@@ -8,13 +12,19 @@ const PilotTest = () => {
     email: '',
     phone: '',
     company: '',
-    type: '', // 'entreprise' ou 'collaborateur'
+    type: '',
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
 
-  // Récupérer le type depuis l'URL ou le state de navigation
-  React.useEffect(() => {
+  const navigate = (page) => {
+    if (global.navigateTo) {
+      global.navigateTo(page);
+    }
+  };
+
+  // Récupération du type depuis l'URL
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const typeParam = params.get('type');
     if (typeParam) {
@@ -27,49 +37,9 @@ const PilotTest = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Validation des champs obligatoires
-    if (!formData.name.trim()) {
-      alert('Veuillez renseigner votre nom complet');
-      return;
-    }
-    
-    if (!formData.email.trim()) {
-      alert('Veuillez renseigner votre email professionnel');
-      return;
-    }
-    
-    // Validation format email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      alert('Veuillez renseigner un email valide');
-      return;
-    }
-    
-    if (!formData.phone.trim()) {
-      alert('Veuillez renseigner votre numéro de téléphone');
-      return;
-    }
-    
-    // Validation du champ entreprise si type = entreprise
-    if (formData.type === 'entreprise' && !formData.company.trim()) {
-      alert('Veuillez renseigner le nom de votre entreprise');
-      return;
-    }
-    
-    // Ici vous pouvez ajouter l'intégration avec votre backend
+    if (e && e.preventDefault) e.preventDefault();
     console.log('Données du formulaire:', formData);
-    
-    // Simulation d'envoi
     setSubmitted(true);
-    
-    // Vous pourriez envoyer les données à un backend:
-    // fetch('/api/pilot-test', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(formData)
-    // });
   };
 
   const handleBack = () => {
@@ -83,25 +53,69 @@ const PilotTest = () => {
   if (submitted) {
     return (
       <ScrollView style={styles.scrollContainer}>
-        <Header />
+        {/* Header */}
+        <View style={styles.transparentHeader}>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity onPress={() => navigate('main')}>
+              <img
+                src={require('../../public/img/Logo-R-bleu.png')}
+                alt="ROOTY Logo"
+                style={{
+                  height: 60,
+                  width: 225,
+                  objectFit: 'contain',
+                  cursor: 'pointer',
+                }}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.headerNav}>
+              <button
+                className="basic-button"
+                onClick={() => navigate('company')}
+                style={styles.headerLink}
+              >
+                Entreprises
+              </button>
+
+              <button
+                className="basic-button"
+                onClick={() => navigate('collaborator')}
+                style={styles.headerLink}
+              >
+                Collaborateurs
+              </button>
+
+              <button
+                className="connexion-button"
+                onClick={() => navigate('auth')}
+                style={styles.headerCta}
+              >
+                Connexion
+              </button>
+            </View>
+          </View>
+        </View>
+
         <View style={styles.container}>
           <View style={styles.successContainer}>
             <Text style={styles.successIcon}>✅</Text>
             <Text style={styles.successTitle}>Demande envoyée avec succès !</Text>
             <Text style={styles.successMessage}>
-              Merci pour votre intérêt. Notre équipe vous recontactera dans les plus brefs délais 
+              Merci pour votre intérêt. Notre équipe vous recontactera dans les plus brefs délais
               pour organiser votre test pilote.
             </Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.backToHomeButton}
               onPress={handleBack}
             >
               <Text style={styles.backToHomeButtonText}>Retour à la démo</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
+
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
+          </View>
         </View>
       </ScrollView>
     );
@@ -109,8 +123,50 @@ const PilotTest = () => {
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <Header />
-      
+      {/* Header */}
+      <View style={styles.transparentHeader}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigate('main')}>
+            <img
+              src={require('../../public/img/Logo-R-bleu.png')}
+              alt="ROOTY Logo"
+              style={{
+                height: 60,
+                width: 225,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.headerNav}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('company')}
+              style={styles.headerLink}
+            >
+              Entreprises
+            </button>
+
+            <button
+              className="basic-button"
+              onClick={() => navigate('collaborator')}
+              style={styles.headerLink}
+            >
+              Collaborateurs
+            </button>
+
+            <button
+              className="connexion-button"
+              onClick={() => navigate('auth')}
+              style={styles.headerCta}
+            >
+              Connexion
+            </button>
+          </View>
+        </View>
+      </View>
+
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
@@ -121,10 +177,9 @@ const PilotTest = () => {
             Rejoignez notre programme de test pilote
           </Text>
           <Text style={styles.subtitle}>
-            {formData.type === 'entreprise' 
-              ? "Testez ROOTY gratuitement pendant 12 semaines et mesurez l'impact sur vos émissions Scope 3.7"
-              : "Soyez parmi les premiers à tester ROOTY et profitez d'avantages exclusifs"
-            }
+            {formData.type === 'entreprise'
+              ? "Testez ROOTY gratuitement pendant 12 semaines et mesurez l'impact sur vos émissions Scope 3.7."
+              : "Soyez parmi les premiers à tester ROOTY et profitez d'avantages exclusifs pour vos trajets."}
           </Text>
 
           <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: 600 }}>
@@ -135,7 +190,6 @@ const PilotTest = () => {
                 value={formData.name}
                 onChangeText={(value) => handleInputChange('name', value)}
                 placeholder="Jean Dupont"
-                required
               />
             </View>
 
@@ -147,7 +201,6 @@ const PilotTest = () => {
                 onChangeText={(value) => handleInputChange('email', value)}
                 placeholder="jean.dupont@entreprise.com"
                 keyboardType="email-address"
-                required
               />
             </View>
 
@@ -159,7 +212,6 @@ const PilotTest = () => {
                 onChangeText={(value) => handleInputChange('phone', value)}
                 placeholder="+33 6 12 34 56 78"
                 keyboardType="phone-pad"
-                required
               />
             </View>
 
@@ -171,7 +223,6 @@ const PilotTest = () => {
                   value={formData.company}
                   onChangeText={(value) => handleInputChange('company', value)}
                   placeholder="Nom de votre entreprise"
-                  required
                 />
               </View>
             )}
@@ -188,7 +239,7 @@ const PilotTest = () => {
               />
             </View>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.submitButton}
               onPress={handleSubmit}
             >
@@ -196,15 +247,15 @@ const PilotTest = () => {
             </TouchableOpacity>
 
             <Text style={styles.privacyNote}>
-              En soumettant ce formulaire, vous acceptez que ROOTY traite vos données 
+              En soumettant ce formulaire, vous acceptez que ROOTY traite vos données
               pour vous recontacter concernant le test pilote.
             </Text>
           </form>
         </View>
-      </View>
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -213,61 +264,104 @@ const PilotTest = () => {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#020617',
   },
   container: {
     flex: 1,
     minHeight: '70vh',
-    paddingVertical: 60,
+    paddingVertical: 120,
     paddingHorizontal: 20,
     alignItems: 'center',
   },
+
+  /* Header */
+  transparentHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingTop: 24,
+    paddingBottom: 8,
+    backgroundColor: 'transparent',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  headerNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerLink: {
+    marginLeft: 28,
+  },
+  headerCta: {
+    marginLeft: 40,
+  },
+
   formContainer: {
     width: '100%',
-    maxWidth: 700,
+    maxWidth: 720,
     alignItems: 'center',
+    padding: 32,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.6)',
+    backgroundColor: '#020617',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 18 },
+    shadowOpacity: 0.35,
+    shadowRadius: 40,
   },
   backButton: {
     alignSelf: 'flex-start',
-    marginBottom: 32,
+    marginBottom: 24,
   },
   backButtonText: {
-    fontSize: 16,
-    color: '#5CC9B4',
+    fontSize: 14,
+    color: ACCENT,
     fontWeight: '600',
   },
   mainTitle: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 16,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#f9fafb',
+    marginBottom: 12,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 18,
-    color: '#666',
-    lineHeight: 28,
-    marginBottom: 48,
+    fontSize: 15,
+    color: '#9ca3af',
+    lineHeight: 22,
+    marginBottom: 32,
     textAlign: 'center',
   },
   formGroup: {
     width: '100%',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#333',
-    marginBottom: 8,
+    color: '#e5e7eb',
+    marginBottom: 6,
   },
   input: {
     width: '100%',
-    padding: 14,
-    fontSize: 16,
+    padding: 12,
+    fontSize: 14,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    backgroundColor: '#fff',
+    borderColor: '#1e293b',
+    borderRadius: 10,
+    backgroundColor: '#020617',
+    color: '#f9fafb',
     outlineStyle: 'none',
   },
   textarea: {
@@ -276,72 +370,73 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     width: '100%',
-    backgroundColor: '#5CC9B4',
-    paddingVertical: 16,
-    borderRadius: 8,
+    backgroundColor: ACCENT,
+    paddingVertical: 14,
+    borderRadius: 999,
     alignItems: 'center',
     marginTop: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowColor: '#22d3ee',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.4,
+    shadowRadius: 24,
   },
   submitButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#020617',
   },
   privacyNote: {
-    fontSize: 13,
-    color: '#999',
+    fontSize: 12,
+    color: '#6b7280',
     textAlign: 'center',
-    marginTop: 16,
-    lineHeight: 20,
+    marginTop: 12,
+    lineHeight: 18,
   },
+
+  /* Success state */
   successContainer: {
     alignItems: 'center',
-    paddingVertical: 60,
+    paddingVertical: 80,
+    paddingHorizontal: 24,
+    maxWidth: 720,
   },
   successIcon: {
-    fontSize: 80,
+    fontSize: 72,
     marginBottom: 24,
   },
   successTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 16,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#f9fafb',
+    marginBottom: 12,
     textAlign: 'center',
   },
   successMessage: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: 15,
+    color: '#9ca3af',
     textAlign: 'center',
-    lineHeight: 28,
-    marginBottom: 40,
+    lineHeight: 22,
+    marginBottom: 32,
     maxWidth: 600,
   },
   backToHomeButton: {
-    backgroundColor: '#5CC9B4',
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 8,
+    backgroundColor: ACCENT,
+    paddingVertical: 12,
+    paddingHorizontal: 28,
+    borderRadius: 999,
   },
   backToHomeButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontSize: 15,
+    fontWeight: '700',
+    color: '#020617',
   },
+
   footer: {
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    backgroundColor: '#5c6c78',
-    alignItems: 'center',
+    marginTop: 40,
   },
   footerText: {
-    color: '#ffffff',
-    fontSize: 14,
+    color: '#6b7280',
+    fontSize: 13,
   },
 });
 

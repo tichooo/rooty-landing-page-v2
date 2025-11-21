@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Header from '../components/Header';
+import '../components/ButtonStyle.css';
+import '../components/BasicButton.css';
+import '../components/ConnexionButton.css';
 import PhoneFrame from '../components/PhoneFrame';
+
+const ACCENT = '#22d3ee';
+const MAX_WIDTH = 1120;
 
 const Demo = () => {
   const [selectedType, setSelectedType] = useState(null); // 'entreprise' ou 'collaborateur'
+
+  const navigate = (page) => {
+    if (global.navigateTo) {
+      global.navigateTo(page);
+    }
+  };
 
   const handleSelectEntreprise = () => {
     setSelectedType('entreprise');
@@ -21,27 +32,69 @@ const Demo = () => {
   const handlePilotTest = (type) => {
     if (global.navigateTo) {
       global.navigateTo('pilottest', { type });
-    } else {
+    } else if (typeof window !== 'undefined') {
       window.location.href = `/pilottest?type=${type}`;
     }
   };
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <Header />
+      {/* Header */}
+      <View style={styles.transparentHeader}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigate('main')}>
+            <img
+              src={require('../../public/img/Logo-R-bleu.png')}
+              alt="ROOTY Logo"
+              style={{
+                height: 60,
+                width: 225,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.headerNav}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('company')}
+              style={styles.headerLink}
+            >
+              Entreprises
+            </button>
+
+            <button
+              className="basic-button"
+              onClick={() => navigate('collaborator')}
+              style={styles.headerLink}
+            >
+              Collaborateurs
+            </button>
+
+            <button
+              className="connexion-button"
+              onClick={() => navigate('auth')}
+              style={styles.headerCta}
+            >
+              Connexion
+            </button>
+          </View>
+        </View>
+      </View>
 
       <View style={styles.container}>
+        {/* ÉTAPE 1 : CHOIX DU TYPE DE DÉMO */}
         {!selectedType ? (
-          // Page de sélection
           <View style={styles.selectionContainer}>
             <Text style={styles.mainTitle}>Demander une démo</Text>
             <Text style={styles.subtitle}>
-              Choisissez le type de démonstration qui vous correspond
+              Choisissez le type de démonstration qui vous correspond.
             </Text>
 
             <View style={styles.cardsContainer}>
               {/* Card Entreprise */}
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.card}
                 onPress={handleSelectEntreprise}
               >
@@ -50,15 +103,16 @@ const Demo = () => {
                 </View>
                 <Text style={styles.cardTitle}>Entreprise</Text>
                 <Text style={styles.cardDescription}>
-                  Vous êtes une entreprise et souhaitez découvrir comment ROOTY peut vous aider à suivre et réduire vos émissions Scope 3.
+                  Découvrez comment ROOTY vous aide à mesurer et piloter le{' '}
+                  <Text style={styles.bold}>Scope 3.7</Text> tout en engageant vos collaborateurs.
                 </Text>
                 <View style={styles.cardButton}>
-                  <Text style={styles.cardButtonText}>Découvrir →</Text>
+                  <Text style={styles.cardButtonText}>Voir la démo →</Text>
                 </View>
               </TouchableOpacity>
 
               {/* Card Collaborateur */}
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.card}
                 onPress={handleSelectCollaborateur}
               >
@@ -67,91 +121,136 @@ const Demo = () => {
                 </View>
                 <Text style={styles.cardTitle}>Collaborateur</Text>
                 <Text style={styles.cardDescription}>
-                  Vous êtes un collaborateur et souhaitez voir comment utiliser l'application ROOTY au quotidien.
+                  Visualisez le quotidien dans l&apos;app ROOTY : validation des trajets,
+                  <Text style={styles.bold}> points</Text> et{' '}
+                  <Text style={styles.bold}>avantages mobilités</Text>.
                 </Text>
                 <View style={styles.cardButton}>
-                  <Text style={styles.cardButtonText}>Découvrir →</Text>
+                  <Text style={styles.cardButtonText}>Voir la démo →</Text>
                 </View>
               </TouchableOpacity>
             </View>
           </View>
         ) : selectedType === 'entreprise' ? (
-          // Page Entreprise (MODIFIÉE — version texte)
+          /* =================== DÉMO ENTREPRISE =================== */
           <View style={styles.contentContainer}>
             <TouchableOpacity onPress={handleBack} style={styles.backButton}>
               <Text style={styles.backButtonText}>← Retour</Text>
             </TouchableOpacity>
 
-            {/* Hero */}
-            <Text style={styles.pageTitle}>Démo Entreprise</Text>
-            <Text style={styles.pageSubtitle}>
-              Mesurez et pilotez le Scope 3.7, sans friction côté salariés. ROOTY agrège les trajets
-              domicile-travail, calcule des indicateurs auditables et vous fournit des exports prêts
-              pour vos reportings.
-            </Text>
+            {/* HERO ENTREPRISE */}
+            <View style={styles.pageHeader}>
+              <Text style={styles.pageKicker}>Pour les équipes RSE, RH &amp; Finance</Text>
+              <Text style={styles.pageTitle}>Démo Entreprise</Text>
+              <Text style={styles.pageSubtitle}>
+                Mesurez et pilotez le <Text style={styles.bold}>Scope 3.7</Text>, sans friction
+                côté salariés. ROOTY agrège les trajets domicile-travail, calcule des indicateurs{' '}
+                <Text style={styles.bold}>auditables</Text> et vous fournit des exports prêts pour
+                vos reportings.
+              </Text>
+            </View>
 
-            {/* Pourquoi c'est difficile */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Pourquoi c’est difficile aujourd’hui</Text>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>Données dispersées, déclaratif peu fiable</Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>Faible engagement salarié sans bénéfice direct</Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>Exports et preuves d’audit chronophages</Text>
+            {/* 1. POURQUOI C'EST DIFFICILE AUJOURD'HUI – 3 CARTES */}
+            <View style={styles.sectionWide}>
+              <Text style={styles.sectionTitleCentered}>
+                Pourquoi c’est difficile aujourd’hui
+              </Text>
+              <View style={styles.reasonRow}>
+                <View style={styles.reasonCard}>
+                  <Text style={styles.reasonTitle}>Données fragiles</Text>
+                  <Text style={styles.reasonText}>
+                    Données dispersées, déclaratif peu fiable, Excel qui explose dès que
+                    vous changez de périmètre.
+                  </Text>
+                </View>
+                <View style={styles.reasonCard}>
+                  <Text style={styles.reasonTitle}>Peu d’engagement</Text>
+                  <Text style={styles.reasonText}>
+                    Le salarié ne voit pas ce qu&apos;il gagne, l&apos;expérience n&apos;est pas adaptée → faible
+                    taux de réponse.
+                  </Text>
+                </View>
+                <View style={styles.reasonCard}>
+                  <Text style={styles.reasonTitle}>Temps perdu</Text>
+                  <Text style={styles.reasonText}>
+                    Exports, consolidations, preuves d’audit : des heures pour RSE &amp;
+                    Finance à chaque reporting.
+                  </Text>
+                </View>
               </View>
             </View>
 
-            {/* Comment ça marche */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Ce que fait ROOTY (en 4 étapes)</Text>
+            {/* 2. CE QUE FAIT ROOTY – TIMELINE */}
+            <View style={styles.sectionTimeline}>
+              <Text style={styles.sectionTitle}>Ce que fait ROOTY pour vous</Text>
 
-              <View style={styles.stepCard}>
-                <Text style={styles.stepTitle}>1) Collecte légère (opt-in)</Text>
-                <Text style={styles.stepText}>
-                  Détection silencieuse côté collaborateur + validation en 1 geste.
-                  Pas de trace GPS point-à-point partagée à l’entreprise.
-                </Text>
-              </View>
+              <View style={styles.timeline}>
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineBullet}>
+                    <Text style={styles.timelineNumber}>1</Text>
+                  </View>
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>Collecte des trajets</Text>
+                    <Text style={styles.timelineText}>
+                      ROOTY collecte les trajets domicile-travail des collaborateurs via
+                      l&apos;app, avec un effort minimum pour les utilisateurs.
+                    </Text>
+                  </View>
+                </View>
 
-              <View style={styles.stepCard}>
-                <Text style={styles.stepTitle}>2) Calcul Scope 3.7</Text>
-                <Text style={styles.stepText}>
-                  Distances et modes agrégés par <Text style={styles.bold}>site/période</Text>. Télétravail inclus.
-                  Méthodes traçables pour faciliter l’audit.
-                </Text>
-              </View>
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineBullet}>
+                    <Text style={styles.timelineNumber}>2</Text>
+                  </View>
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>Calcul Scope 3.7</Text>
+                    <Text style={styles.timelineText}>
+                      Distances et modes agrégés par{' '}
+                      <Text style={styles.bold}>site/période</Text>. Télétravail inclus. Méthodes
+                      traçables pour faciliter l’audit.
+                    </Text>
+                  </View>
+                </View>
 
-              <View style={styles.stepCard}>
-                <Text style={styles.stepTitle}>3) Exports “audit-ready”</Text>
-                <Text style={styles.stepText}>
-                  Tableaux par <Text style={styles.bold}>site / période / mode</Text> (CSV/PDF) et tendances.
-                </Text>
-              </View>
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineBullet}>
+                    <Text style={styles.timelineNumber}>3</Text>
+                  </View>
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>Exports “audit-ready”</Text>
+                    <Text style={styles.timelineText}>
+                      Tableaux par <Text style={styles.bold}>site / période / mode</Text> (CSV/PDF)
+                      et tendances, prêts à être intégrés dans vos reportings.
+                    </Text>
+                  </View>
+                </View>
 
-              <View style={styles.stepCard}>
-                <Text style={styles.stepTitle}>4) Activation des leviers</Text>
-                <Text style={styles.stepText}>
-                  Mise en place et suivi d’actions (FMD, vélo, covoiturage, parking, infrastructures)
-                  et mesure de l’impact (% trajets doux, tCO₂e évitées).
-                </Text>
+                <View style={styles.timelineRow}>
+                  <View style={styles.timelineBullet}>
+                    <Text style={styles.timelineNumber}>4</Text>
+                  </View>
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>Activation des leviers</Text>
+                    <Text style={styles.timelineText}>
+                      Mise en place et suivi d’actions (
+                      <Text style={styles.bold}>FMD</Text>, vélo, covoiturage, parking,
+                      infrastructures) et mesure de l’impact (% trajets doux, tCO₂e évitées).
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
 
-            {/* Ce que vous obtenez */}
-            <View style={styles.section}>
+            {/* 3. CE QUE VOUS OBTENEZ – 2x2 CARDS */}
+            <View style={styles.sectionCards}>
               <Text style={styles.sectionTitle}>Ce que vous obtenez</Text>
 
               <View style={styles.grid2}>
                 <View style={styles.valueCard}>
-                  <Text style={styles.valueTitle}>Conformité & traçabilité</Text>
+                  <Text style={styles.valueTitle}>Conformité &amp; traçabilité</Text>
                   <Text style={styles.valueText}>
-                    Données agrégées, historisées, justificatifs prêts pour vos contrôles internes.
+                    Données agrégées, historisées, justificatifs prêts pour vos contrôles
+                    internes et externes.
                   </Text>
                 </View>
                 <View style={styles.valueCard}>
@@ -161,9 +260,10 @@ const Demo = () => {
                   </Text>
                 </View>
                 <View style={styles.valueCard}>
-                  <Text style={styles.valueTitle}>Réduction & ROI</Text>
+                  <Text style={styles.valueTitle}>Réduction &amp; ROI</Text>
                   <Text style={styles.valueText}>
-                    Suivi des % de trajets doux, tCO₂e évitées, économies (ex. stationnement/abonnements).
+                    Suivi des <Text style={styles.bold}>% de trajets doux</Text>, tCO₂e évitées,
+                    économies (ex. stationnement/abonnements).
                   </Text>
                 </View>
                 <View style={styles.valueCard}>
@@ -175,47 +275,78 @@ const Demo = () => {
               </View>
             </View>
 
-            {/* Pilote 12 semaines */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Pilote 12 semaines</Text>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}><Text style={styles.bold}>Cadrage :</Text> sites, populations, objectifs, KPIs.</Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}><Text style={styles.bold}>Déploiement :</Text> onboarding, communication interne, rewards (si activés).</Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}><Text style={styles.bold}>Suivi :</Text> adoption, % trajets doux, tendance CO₂.</Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}><Text style={styles.bold}>Rapport final :</Text> résultats, recommandations, plan d'élargissement.</Text>
-              </View>
-            </View>
-
-            {/* Confidentialité & IT */}
-            <View style={[styles.section, styles.privacyCard]}>
-              <Text style={styles.sectionTitle}>Confidentialité & IT</Text>
-              <Text style={styles.privacyText}>
-                • Pas de localisation détaillée partagée à l’entreprise{'\n'}
-                • Agrégation / k-anonymity par cohortes{'\n'}
-                • SSO possible, import annuaire/sites, exports standard (CSV/PDF)
+            {/* 4. PILOTE 12 SEMAINES – BANDEAU CHOC */}
+            <View style={styles.sectionHighlightBand}>
+              <Text style={styles.sectionTitleCentered}>Pilote 12 semaines</Text>
+              <Text style={styles.bandSubtitle}>
+                Testez ROOTY sur un périmètre limité, obtenez des chiffres et un retour
+                terrain concret avant généralisation.
               </Text>
+
+              <View style={styles.pilotRow}>
+                <View style={styles.pilotCard}>
+                  <Text style={styles.pilotStep}>Étape 1</Text>
+                  <Text style={styles.pilotTitle}>Cadrage</Text>
+                  <Text style={styles.pilotText}>
+                    Sites, populations, objectifs, KPIs, périmètre de reporting.
+                  </Text>
+                </View>
+                <View style={styles.pilotCard}>
+                  <Text style={styles.pilotStep}>Étape 2</Text>
+                  <Text style={styles.pilotTitle}>Déploiement</Text>
+                  <Text style={styles.pilotText}>
+                    Onboarding, communication interne, rewards (si activés), support des
+                    équipes.
+                  </Text>
+                </View>
+                <View style={styles.pilotCard}>
+                  <Text style={styles.pilotStep}>Étape 3</Text>
+                  <Text style={styles.pilotTitle}>Bilan &amp; next step</Text>
+                  <Text style={styles.pilotText}>
+                    Indicateurs consolidés, retour d’expérience, scénario de
+                    généralisation.
+                  </Text>
+                </View>
+              </View>
             </View>
 
-            {/* Visuels (optionnels) */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Aperçu du cockpit</Text>
+            {/* 5. CONFIDENTIALITÉ & IT – 2 COLONNES */}
+            <View style={styles.sectionSplit}>
+              <View style={styles.splitLeft}>
+                <Text style={styles.sectionTitle}>Confidentialité &amp; IT</Text>
+                <Text style={styles.splitIntro}>
+                  ROOTY est conçu pour respecter la vie privée tout en fournissant une
+                  donnée exploitable, traçable et facile à intégrer dans vos systèmes.
+                </Text>
+              </View>
+              <View style={styles.splitRight}>
+                <View style={styles.privacyCard}>
+                  <Text style={styles.privacyText}>
+                    • Données agrégées par sites/périodes, pas de suivi GPS individualisé
+                    en continu.{'\n'}
+                    • Niveau d’automatisation ajustable, mise en pause possible, suppression récente.
+                    {'\n'}
+                    • SSO possible, import annuaire/sites, exports standard (CSV/PDF).
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            {/* 6. APERÇU DU COCKPIT – IMAGES CENTRÉES */}
+            <View style={styles.sectionGallery}>
+              <Text style={styles.sectionTitleCentered}>Aperçu du cockpit</Text>
               <View style={styles.imagesSection}>
                 <View style={styles.phoneContainer}>
                   <PhoneFrame width={300} height={600}>
                     <img
                       src="/img/dashboard-entreprise2.png"
                       alt="Dashboard entreprise"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
                     />
                   </PhoneFrame>
                   <Text style={styles.imageCaption}>
@@ -228,7 +359,12 @@ const Demo = () => {
                     <img
                       src="/img/Exports-entreprise.png"
                       alt="Export entreprise"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
                     />
                   </PhoneFrame>
                   <Text style={styles.imageCaption}>
@@ -239,87 +375,112 @@ const Demo = () => {
             </View>
           </View>
         ) : (
-          // Page Collaborateur (MODIFIÉE)
+          /* =================== DÉMO COLLABORATEUR =================== */
           <View style={styles.contentContainer}>
             <TouchableOpacity onPress={handleBack} style={styles.backButton}>
               <Text style={styles.backButtonText}>← Retour</Text>
             </TouchableOpacity>
 
-            {/* Hero */}
-            <Text style={styles.pageTitle}>Démo Collaborateur</Text>
-            <Text style={styles.pageSubtitle}>
-              Validez votre trajet en 1 geste. Gagnez des avantages. ROOTY détecte
-              votre trajet domicile-travail, vous confirmez en un swipe, et vous cumulez
-              des points convertibles selon la politique de votre entreprise.
-            </Text>
-
-            {/* Comment ça marche */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Comment ça marche (30 secondes)</Text>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>
-                  <Text style={styles.bold}>Détection automatique :</Text> l’app repère votre arrivée au travail
-                  et propose le mode détecté (vélo, marche, bus/train, covoit…).
-                </Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>
-                  <Text style={styles.bold}>Validation 1-tap :</Text> sur l’écran “Validation du moyen de transport”,
-                  vous confirmez ou corrigez en un tap.
-                </Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>
-                  <Text style={styles.bold}>Points & justificatifs :</Text> chaque validation crédite votre solde
-                  de points et met à jour votre justificatif mensuel (avantages mobilité).
-                </Text>
-              </View>
-            </View>
-
-            {/* Gagner des avantages */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Comment je gagne de l’argent / des avantages ?</Text>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>
-                  <Text style={styles.bold}>Points → Récompenses :</Text> échangez vos points contre des bénéfices
-                  définis par l’entreprise (cartes cadeaux, entretien vélo, casiers/douches, primes internes…).
-                </Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>
-                  <Text style={styles.bold}>Avantages mobilité :</Text> générer un justificatif mensuel en 1 clic
-                  pour faciliter vos remboursements ou primes (selon les règles de votre entreprise).
-                </Text>
-              </View>
-              <View style={styles.bulletRow}>
-                <View style={styles.bulletDot} />
-                <Text style={styles.bulletText}>
-                  <Text style={styles.bold}>Bonus & défis :</Text> des bonus peuvent s’ajouter (loteries mensuelles,
-                  paliers de trajets doux). Tout est visible dans l’onglet “Avantages”.
-                </Text>
-              </View>
-            </View>
-
-            {/* Confidentialité */}
-            <View style={[styles.section, styles.privacyCard]}>
-              <Text style={styles.sectionTitle}>Confidentialité (version courte)</Text>
-              <Text style={styles.privacyText}>
-                • Pas de trace GPS détaillée partagée à l’entreprise{'\n'}
-                • Données agrégées par période/site{'\n'}
-                • Vous gardez le contrôle : pause et suppression des dernières données
+            {/* HERO COLLABORATEUR */}
+            <View style={styles.pageHeader}>
+              <Text style={styles.pageKicker}>Pour les collaborateurs</Text>
+              <Text style={styles.pageTitle}>Démo Collaborateur</Text>
+              <Text style={styles.pageSubtitle}>
+                Validez votre trajet en 1 geste. Gagnez des{' '}
+                <Text style={styles.bold}>avantages mobilités</Text>. ROOTY détecte votre trajet
+                domicile-travail, vous confirmez en un swipe, et vous cumulez des points
+                convertibles selon la politique de votre entreprise.
               </Text>
             </View>
 
-            {/* Visuels */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Aperçu de l'app</Text>
+            {/* 1. COMMENT ÇA MARCHE – 3 BLOCS */}
+            <View style={styles.sectionTimeline}>
+              <Text style={styles.sectionTitle}>Comment ça marche (30 secondes)</Text>
 
-              {/* Section Images */}
+              <View style={styles.pilotRow}>
+                <View style={styles.pilotCard}>
+                  <Text style={styles.pilotStep}>1</Text>
+                  <Text style={styles.pilotTitle}>ROOTY propose</Text>
+                  <Text style={styles.pilotText}>
+                    Basé sur vos habitudes domicile-travail, sans guidage GPS imposé.
+                  </Text>
+                </View>
+                <View style={styles.pilotCard}>
+                  <Text style={styles.pilotStep}>2</Text>
+                  <Text style={styles.pilotTitle}>Vous validez</Text>
+                  <Text style={styles.pilotText}>
+                    En 1 tap, vous confirmez ou ajustez le mode de transport (vélo,
+                    covoiturage, TT…).
+                  </Text>
+                </View>
+                <View style={styles.pilotCard}>
+                  <Text style={styles.pilotStep}>3</Text>
+                  <Text style={styles.pilotTitle}>Vos points montent</Text>
+                  <Text style={styles.pilotText}>
+                    Votre solde se met à jour et alimente vos avantages mobilités.
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            {/* 2. GAGNER DES AVANTAGES – BANDEAU */}
+            <View style={styles.sectionHighlightBand}>
+              <Text style={styles.sectionTitleCentered}>
+                Comment je gagne de l’argent / des avantages ?
+              </Text>
+
+              <View style={styles.bulletRow}>
+                <View style={styles.bulletDot} />
+                <Text style={styles.bulletText}>
+                  <Text style={styles.bold}>Prime FMD :</Text> vos trajets éligibles alimentent
+                  votre Forfait Mobilités Durables, selon la politique de votre entreprise.
+                </Text>
+              </View>
+
+              <View style={styles.bulletRow}>
+                <View style={styles.bulletDot} />
+                <Text style={styles.bulletText}>
+                  <Text style={styles.bold}>Points → Récompenses :</Text> échangez vos points
+                  contre des bénéfices définis par l’entreprise (cartes cadeaux, entretien
+                  vélo, casiers/douches, primes internes…).
+                </Text>
+              </View>
+
+              <View style={styles.bulletRow}>
+                <View style={styles.bulletDot} />
+                <Text style={styles.bulletText}>
+                  <Text style={styles.bold}>Avantages mobilité :</Text> générez un justificatif
+                  mensuel en 1 clic pour faciliter vos remboursements ou primes (selon les
+                  règles de votre entreprise).
+                </Text>
+              </View>
+            </View>
+
+            {/* 3. CONFIDENTIALITÉ – BLOC SIMPLE */}
+            <View style={styles.sectionSplit}>
+              <View style={styles.splitLeft}>
+                <Text style={styles.sectionTitle}>Confidentialité (version courte)</Text>
+                <Text style={styles.splitIntro}>
+                  Vous gardez la main sur vos données, l&apos;entreprise ne voit que des
+                  informations agrégées.
+                </Text>
+              </View>
+              <View style={styles.splitRight}>
+                <View style={styles.privacyCard}>
+                  <Text style={styles.privacyText}>
+                    • Vous choisissez le niveau d&apos;automatisation (proposition
+                    automatique, validation manuelle…).{'\n'}
+                    • Vous pouvez mettre en pause la détection et supprimer vos dernières
+                    données.{'\n'}
+                    • Seules des données agrégées et anonymisées remontent à l&apos;entreprise.
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            {/* 4. APERÇU APP – GALERIE */}
+            <View style={styles.sectionGallery}>
+              <Text style={styles.sectionTitleCentered}>Aperçu de l’app</Text>
               <View style={styles.imagesSection}>
                 {/* Image 1: Interface principale */}
                 <View style={styles.phoneContainer}>
@@ -336,7 +497,8 @@ const Demo = () => {
                     />
                   </PhoneFrame>
                   <Text style={styles.imageCaption}>
-                    Page principale : Trajet du jour (Valider/Modifier/TT), solde de points et objectif du mois.
+                    Page principale : Trajet du jour (Valider/Modifier/TT), solde de points
+                    et objectif du mois.
                   </Text>
                 </View>
 
@@ -355,31 +517,32 @@ const Demo = () => {
                     />
                   </PhoneFrame>
                   <Text style={styles.imageCaption}>
-                    Validation du moyen de transport : confirmez ou corrigez en 1 tap → points crédités.
+                    Écran de choix du mode de transport, visible lors d&apos;un ajustement
+                    manuel.
                   </Text>
                 </View>
               </View>
             </View>
           </View>
         )}
-      </View>
 
-      {/* CTA Test Pilote - Affiché seulement quand une section est sélectionnée */}
-      {selectedType && (
-        <View style={styles.ctaSection}>
-          <Text style={styles.ctaTitle}>
-            {selectedType === 'entreprise' 
-              ? "Prêt à mesurer et réduire vos émissions Scope 3.7 ?" 
-              : "Prêt à simplifier vos trajets et gagner des avantages ?"}
-          </Text>
-          <TouchableOpacity 
-            style={styles.pilotButton}
-            onPress={() => handlePilotTest(selectedType)}
-          >
-            <Text style={styles.pilotButtonText}>🚀 Rejoindre le test pilote</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+        {/* CTA test pilote */}
+        {selectedType && (
+          <View style={styles.ctaSection}>
+            <Text style={styles.ctaTitle}>
+              {selectedType === 'entreprise'
+                ? 'Prêt à mesurer et réduire vos émissions Scope 3.7 ?'
+                : 'Prêt à simplifier vos trajets et gagner des avantages ?'}
+            </Text>
+            <TouchableOpacity
+              style={styles.pilotButton}
+              onPress={() => handlePilotTest(selectedType)}
+            >
+              <Text style={styles.pilotButtonText}>🚀 Rejoindre le test pilote</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
 
       {/* Footer */}
       <View style={styles.footer}>
@@ -392,278 +555,466 @@ const Demo = () => {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#020617',
   },
   container: {
     flex: 1,
     minHeight: '70vh',
+    paddingTop: 120,
   },
+
+  /* HEADER */
+  transparentHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingTop: 24,
+    paddingBottom: 8,
+    backgroundColor: 'transparent',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  headerNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerLink: {
+    marginLeft: 28,
+  },
+  headerCta: {
+    marginLeft: 40,
+  },
+
+  /* SELECTION */
   selectionContainer: {
-    paddingVertical: 60,
-    paddingHorizontal: 20,
+    paddingVertical: 100,
+    paddingHorizontal: 40,
     alignItems: 'center',
   },
   mainTitle: {
     fontSize: 42,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 16,
+    fontWeight: '700',
+    color: '#f9fafb',
+    marginBottom: 20,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 18,
-    color: '#666',
-    marginBottom: 60,
+    color: '#9ca3af',
+    marginBottom: 64,
     textAlign: 'center',
-    maxWidth: 600,
+    maxWidth: 700,
+    lineHeight: 28,
   },
   cardsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 32,
+    gap: 40,
     maxWidth: 1000,
-    width: '100%',
   },
   card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
+    backgroundColor: '#020617',
+    borderRadius: 20,
     padding: 40,
     width: 400,
-    minWidth: 300,
+    minHeight: 320,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.6)',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 4,
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    borderWidth: 2,
-    borderColor: 'transparent',
+    shadowOffset: { width: 0, height: 18 },
+    shadowOpacity: 0.35,
+    shadowRadius: 30,
   },
   cardIcon: {
-    marginBottom: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 999,
+    backgroundColor: '#0b1120',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
   iconText: {
-    fontSize: 64,
+    fontSize: 32,
   },
   cardTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 16,
-    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 12,
   },
   cardDescription: {
     fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
+    color: '#9ca3af',
     marginBottom: 24,
-    textAlign: 'center',
+    lineHeight: 24,
   },
   cardButton: {
-    alignItems: 'center',
-    paddingVertical: 12,
+    marginTop: 8,
   },
   cardButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#5CC9B4',
+    color: ACCENT,
   },
+
+  /* CONTENU DES PAGES */
   contentContainer: {
-    paddingVertical: 60,
+    paddingVertical: 100,
     paddingHorizontal: 40,
-    maxWidth: 1200,
+    maxWidth: MAX_WIDTH,
     marginHorizontal: 'auto',
     width: '100%',
   },
   backButton: {
     marginBottom: 32,
-    alignSelf: 'flex-start',
   },
   backButtonText: {
-    fontSize: 16,
-    color: '#5CC9B4',
-    fontWeight: '600',
+    color: '#9ca3af',
+    fontSize: 14,
+  },
+  pageHeader: {
+    marginBottom: 64,
+  },
+  pageKicker: {
+    fontSize: 12,
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+    color: ACCENT,
+    marginBottom: 6,
   },
   pageTitle: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 16,
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#f9fafb',
+    marginBottom: 10,
   },
   pageSubtitle: {
-    fontSize: 18,
-    color: '#666',
-    lineHeight: 28,
-    marginBottom: 32,
-    maxWidth: 900,
+    fontSize: 16,
+    color: '#9ca3af',
+    lineHeight: 22,
+    maxWidth: 720,
   },
 
-  /*** STYLES COMMUNS AUX SECTIONS ***/
-  section: {
-    marginBottom: 32,
+  /* SECTIONS VARIÉES */
+  sectionWide: {
+    marginBottom: 160,
+  },
+  sectionTitleCentered: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#f9fafb',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  reasonRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 24,
+    justifyContent: 'center',
+  },
+  reasonCard: {
+    flexBasis: 280,
+    flexGrow: 1,
+    backgroundColor: '#020617',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.6)',
+    padding: 24,
+  },
+  reasonTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 6,
+  },
+  reasonText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+  },
+
+  sectionTimeline: {
+    marginBottom: 160,
+    padding: 32,
+    borderRadius: 20,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: 'rgba(31, 41, 55, 0.9)',
   },
   sectionTitle: {
     fontSize: 22,
-    fontWeight: '700',
-    color: '#333',
-    marginBottom: 16,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 32,
   },
-  bulletRow: {
+  timeline: {
+    borderLeftWidth: 1,
+    borderLeftColor: 'rgba(55, 65, 81, 0.9)',
+    paddingLeft: 12,
+    gap: 32,
+  },
+  timelineRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 10,
-    maxWidth: 900,
+    gap: 12,
   },
-  bulletDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#5CC9B4',
-    marginTop: 8,
-    marginRight: 10,
+  timelineBullet: {
+    width: 28,
+    height: 28,
+    borderRadius: 999,
+    backgroundColor: '#020617',
+    borderWidth: 2,
+    borderColor: ACCENT,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: -26,
   },
-  bulletText: {
-    flex: 1,
-    fontSize: 16,
-    color: '#444',
-    lineHeight: 24,
-  },
-  bold: {
+  timelineNumber: {
+    color: ACCENT,
     fontWeight: '700',
-    color: '#2d2d2d',
+    fontSize: 14,
   },
-  privacyCard: {
-    backgroundColor: '#F7FBFA',
+  timelineContent: {
+    flex: 1,
+    backgroundColor: '#020617',
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: '#D5F0E9',
-    borderRadius: 12,
-    padding: 16,
+    borderColor: 'rgba(55, 65, 81, 0.9)',
+    padding: 14,
   },
-  privacyText: {
-    fontSize: 15,
-    color: '#3a3a3a',
-    lineHeight: 22,
+  timelineTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 4,
+  },
+  timelineText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
   },
 
-  /*** ENTREPRISE ***/
-  stepCard: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E9F5F1',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-  },
-  stepTitle: {
-    fontSize: 17,
-    fontWeight: '700',
-    color: '#2d2d2d',
-    marginBottom: 6,
-  },
-  stepText: {
-    fontSize: 15,
-    color: '#444',
-    lineHeight: 22,
+  sectionCards: {
+    marginBottom: 160,
   },
   grid2: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 16,
+    gap: 24,
+    justifyContent: 'center',
   },
   valueCard: {
-    flexBasis: 300,
+    flexBasis: 260,
     flexGrow: 1,
-    backgroundColor: '#F7FBFA',
+    backgroundColor: '#020617',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#D5F0E9',
-    borderRadius: 12,
-    padding: 16,
+    borderColor: 'rgba(148, 163, 184, 0.5)',
+    padding: 24,
   },
   valueTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#2d2d2d',
-    marginBottom: 6,
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 4,
   },
   valueText: {
-    fontSize: 15,
-    color: '#3a3a3a',
-    lineHeight: 22,
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
   },
 
-  /*** VISUELS (commun) ***/
+  sectionHighlightBand: {
+    marginBottom: 160,
+    padding: 40,
+    borderRadius: 22,
+    backgroundColor: '#020617',
+    borderWidth: 1,
+    borderColor: 'rgba(34, 211, 238, 0.8)',
+    shadowColor: '#22d3ee',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 16 },
+    shadowRadius: 40,
+  },
+  bandSubtitle: {
+    fontSize: 16,
+    color: '#9ca3af',
+    textAlign: 'center',
+    maxWidth: 720,
+    alignSelf: 'center',
+    marginBottom: 40,
+    lineHeight: 24,
+  },
+  pilotRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 24,
+    justifyContent: 'center',
+  },
+  pilotCard: {
+    flexBasis: 260,
+    flexGrow: 1,
+    backgroundColor: '#020617',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.6)',
+    padding: 24,
+  },
+  pilotStep: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    color: ACCENT,
+    marginBottom: 4,
+  },
+  pilotTitle: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 4,
+  },
+  pilotText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+  },
+
+  sectionSplit: {
+    marginBottom: 160,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 40,
+  },
+  splitLeft: {
+    flex: 1,
+    minWidth: 260,
+  },
+  splitRight: {
+    flex: 1,
+    minWidth: 260,
+  },
+  splitIntro: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+    maxWidth: 420,
+  },
+
+  privacyCard: {
+    backgroundColor: '#020617',
+    borderColor: 'rgba(148, 163, 184, 0.5)',
+    borderWidth: 1,
+    borderRadius: 16,
+    padding: 16,
+  },
+  privacyText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+  },
+
+  sectionGallery: {
+    marginBottom: 160,
+  },
   imagesSection: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
     gap: 60,
-    marginTop: 12,
+    marginTop: 32,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   phoneContainer: {
+    width: 300,
     alignItems: 'center',
-    marginHorizontal: 30,
   },
   imageCaption: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginTop: 16,
+    marginTop: 20,
+    fontSize: 14,
+    color: '#9ca3af',
     textAlign: 'center',
     maxWidth: 300,
+    lineHeight: 20,
   },
 
-  /*** CTA SECTION TEST PILOTE ***/
+  bulletRow: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    alignItems: 'flex-start',
+  },
+  bulletDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 999,
+    backgroundColor: ACCENT,
+    marginRight: 10,
+    marginTop: 6,
+  },
+  bulletText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#9ca3af',
+    lineHeight: 20,
+  },
+
+  bold: {
+    fontWeight: '700',
+    color: ACCENT,
+  },
+
+  /* CTA TEST PILOTE */
   ctaSection: {
-    paddingVertical: 60,
+    paddingVertical: 80,
     paddingHorizontal: 40,
-    backgroundColor: '#F7FBFA',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#D5F0E9',
+    borderTopColor: 'rgba(15, 23, 42, 0.9)',
   },
   ctaTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#f9fafb',
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 32,
     maxWidth: 700,
+    lineHeight: 32,
   },
   pilotButton: {
-    backgroundColor: '#5CC9B4',
-    paddingVertical: 18,
-    paddingHorizontal: 48,
-    borderRadius: 12,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 4,
+    backgroundColor: ACCENT,
+    paddingHorizontal: 22,
+    paddingVertical: 12,
+    borderRadius: 999,
   },
   pilotButtonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#fff',
+    color: '#020617',
+    fontSize: 15,
+    fontWeight: '600',
   },
 
-  /*** FOOTER ***/
+  /* FOOTER */
   footer: {
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    backgroundColor: '#5c6c78',
+    paddingVertical: 24,
+    paddingHorizontal: '5%',
+    backgroundColor: '#020617',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(15, 23, 42, 0.9)',
   },
   footerText: {
-    color: '#ffffff',
-    fontSize: 14,
+    color: '#9ca3af',
+    fontSize: 13,
   },
 });
 

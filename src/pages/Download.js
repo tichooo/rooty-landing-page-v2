@@ -1,7 +1,11 @@
-﻿import React from 'react';
+﻿﻿import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import '../components/AllButton.css';
 import '../components/BasicButton.css';
+import '../components/ConnexionButton.css';
+
+const ACCENT = '#22d3ee';
+const MAX_WIDTH = 1120;
 
 const Download = () => {
   const navigate = (page) => {
@@ -12,86 +16,129 @@ const Download = () => {
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <View style={styles.container}>
-        <View style={styles.header}>
+      {/* Header */}
+      <View style={styles.transparentHeader}>
+        <View style={styles.headerContainer}>
           <TouchableOpacity onPress={() => navigate('main')}>
-            <Text style={styles.logo}>ROOTY</Text>
+            <img
+              src={require('../../public/img/Logo-R-bleu.png')}
+              alt="ROOTY Logo"
+              style={{
+                height: 60,
+                width: 225,
+                objectFit: 'contain',
+                cursor: 'pointer',
+              }}
+            />
           </TouchableOpacity>
-        </View>
 
+          <View style={styles.headerNav}>
+            <button
+              className="basic-button"
+              onClick={() => navigate('company')}
+              style={styles.headerLink}
+            >
+              Entreprises
+            </button>
+
+            <button
+              className="basic-button"
+              onClick={() => navigate('collaborator')}
+              style={styles.headerLink}
+            >
+              Collaborateurs
+            </button>
+
+            <button
+              className="connexion-button"
+              onClick={() => navigate('auth')}
+              style={styles.headerCta}
+            >
+              Connexion
+            </button>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.container}>
         <View style={styles.content}>
           <View style={styles.iconContainer}>
-            <Text style={styles.icon}></Text>
+            <Text style={styles.icon}>🚧</Text>
           </View>
-          
+
           <Text style={styles.title}>Application en cours de développement</Text>
           <Text style={styles.subtitle}>
-            Notre application de suivi des trajets domicile-travail est actuellement en développement.
-            Elle sera bientôt disponible pour téléchargement.
+            Notre application de suivi des trajets domicile-travail est actuellement en
+            développement. Elle sera bientôt disponible pour téléchargement.
           </Text>
 
+          {/* Statut */}
           <View style={styles.statusCard}>
-            <Text style={styles.statusTitle}> Prochaines étapes</Text>
+            <Text style={styles.statusTitle}>Prochaines étapes</Text>
             <View style={styles.statusList}>
               <View style={styles.statusItem}>
-                <Text style={styles.statusBullet}></Text>
+                <Text style={styles.statusBullet}>✓</Text>
                 <Text style={styles.statusText}>Interface utilisateur finalisée</Text>
               </View>
               <View style={styles.statusItem}>
-                <Text style={styles.statusBullet}></Text>
+                <Text style={styles.statusBullet}>🧪</Text>
                 <Text style={styles.statusText}>Tests en cours</Text>
               </View>
               <View style={styles.statusItem}>
-                <Text style={styles.statusBullet}></Text>
+                <Text style={styles.statusBullet}>📅</Text>
                 <Text style={styles.statusText}>Déploiement prévu : Q1 2026</Text>
               </View>
             </View>
           </View>
 
+          {/* Plateformes */}
           <View style={styles.platformsSection}>
             <Text style={styles.platformsTitle}>Plateformes supportées</Text>
             <View style={styles.platformsGrid}>
               <View style={styles.platformCard}>
-                <Text style={styles.platformIcon}></Text>
+                <Text style={styles.platformIcon}>🪟</Text>
                 <Text style={styles.platformName}>Windows</Text>
                 <Text style={styles.platformVersion}>Windows 10+</Text>
               </View>
               <View style={styles.platformCard}>
-                <Text style={styles.platformIcon}></Text>
+                <Text style={styles.platformIcon}></Text>
                 <Text style={styles.platformName}>macOS</Text>
                 <Text style={styles.platformVersion}>macOS 11+</Text>
               </View>
               <View style={styles.platformCard}>
-                <Text style={styles.platformIcon}></Text>
+                <Text style={styles.platformIcon}>🐧</Text>
                 <Text style={styles.platformName}>Linux</Text>
                 <Text style={styles.platformVersion}>Ubuntu 20.04+</Text>
               </View>
             </View>
           </View>
 
+          {/* Newsletter */}
           <View style={styles.notifySection}>
             <Text style={styles.notifyTitle}>Être notifié du lancement</Text>
             <Text style={styles.notifyText}>
-              Inscrivez-vous à notre newsletter pour être informé dès que l'application sera disponible.
+              Inscrivez-vous à notre newsletter pour être informé dès que l&apos;application
+              sera disponible.
             </Text>
             <TouchableOpacity onPress={() => navigate('main')}>
-              <button className='all-button'>
-                <span>S'inscrire à la newsletter</span>
+              <button className="all-button">
+                <span>S&apos;inscrire à la newsletter</span>
               </button>
             </TouchableOpacity>
           </View>
 
+          {/* Retour */}
           <View style={styles.backSection}>
             <TouchableOpacity onPress={() => navigate('main')}>
-              <button className='basic-button'>
-                 Retour à l'accueil
+              <button className="basic-button">
+                Retour à l&apos;accueil
               </button>
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}> 2025 ROOTY. Tous droits réservés.</Text>
+          <Text style={styles.footerText}>© 2025 ROOTY. Tous droits réservés.</Text>
         </View>
       </View>
     </ScrollView>
@@ -101,32 +148,50 @@ const Download = () => {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#020617',
   },
   container: {
     flex: 1,
     minHeight: '100vh',
+    paddingTop: 120,
   },
-  header: {
-    paddingVertical: 30,
-    paddingHorizontal: 40,
-    backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+
+  /* Header */
+  transparentHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    paddingTop: 24,
+    paddingBottom: 8,
+    backgroundColor: 'transparent',
   },
-  logo: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#5CC9B4',
-    cursor: 'pointer',
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    maxWidth: MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
+  headerNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  headerLink: {
+    marginLeft: 28,
+  },
+  headerCta: {
+    marginLeft: 40,
+  },
+
   content: {
     flex: 1,
-    paddingVertical: 60,
-    paddingHorizontal: 40,
+    paddingVertical: 72,
+    paddingHorizontal: 24,
     alignItems: 'center',
     maxWidth: 900,
     marginHorizontal: 'auto',
@@ -136,137 +201,142 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   icon: {
-    fontSize: 80,
+    fontSize: 64,
   },
   title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 30,
+    fontWeight: '700',
+    color: '#f9fafb',
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   subtitle: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: 16,
+    color: '#9ca3af',
     textAlign: 'center',
-    lineHeight: 28,
-    marginBottom: 48,
+    lineHeight: 24,
+    marginBottom: 40,
     maxWidth: 700,
   },
+
   statusCard: {
     width: '100%',
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 32,
-    marginBottom: 48,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 3,
+    backgroundColor: '#020617',
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 40,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.6)',
   },
   statusTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 24,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 18,
   },
   statusList: {
-    gap: 16,
+    gap: 12,
   },
   statusItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: 10,
   },
   statusBullet: {
-    fontSize: 24,
-    width: 32,
+    width: 28,
+    textAlign: 'center',
+    fontSize: 18,
   },
   statusText: {
-    fontSize: 16,
-    color: '#555',
+    fontSize: 14,
+    color: '#9ca3af',
     flex: 1,
   },
+
   platformsSection: {
     width: '100%',
-    marginBottom: 48,
+    marginBottom: 40,
   },
   platformsTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#f9fafb',
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: 24,
   },
   platformsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 24,
+    gap: 18,
   },
   platformCard: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 24,
+    backgroundColor: '#020617',
+    borderRadius: 16,
+    padding: 20,
     width: 180,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    elevation: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(148, 163, 184, 0.6)',
   },
   platformIcon: {
-    fontSize: 48,
-    marginBottom: 12,
+    fontSize: 32,
+    marginBottom: 8,
   },
   platformName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
+    color: '#f9fafb',
+    marginBottom: 2,
   },
   platformVersion: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 13,
+    color: '#9ca3af',
   },
+
   notifySection: {
     width: '100%',
-    backgroundColor: '#ecfdf5',
-    borderRadius: 16,
-    padding: 40,
+    backgroundColor: '#020617',
+    borderRadius: 20,
+    padding: 28,
     alignItems: 'center',
     marginBottom: 32,
+    borderWidth: 1,
+    borderColor: 'rgba(34, 211, 238, 0.7)',
+    shadowColor: '#22d3ee',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 14 },
+    shadowRadius: 36,
   },
   notifyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 12,
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#f9fafb',
+    marginBottom: 10,
     textAlign: 'center',
   },
   notifyText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 14,
+    color: '#9ca3af',
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
     maxWidth: 500,
-    lineHeight: 24,
+    lineHeight: 22,
   },
   backSection: {
-    marginTop: 32,
+    marginTop: 16,
   },
+
   footer: {
-    paddingVertical: 30,
-    backgroundColor: '#ffffff',
+    paddingVertical: 24,
+    backgroundColor: '#020617',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
+    borderTopColor: '#0f172a',
   },
   footerText: {
     fontSize: 13,
-    color: '#9ca3af',
+    color: '#6b7280',
   },
 });
 
